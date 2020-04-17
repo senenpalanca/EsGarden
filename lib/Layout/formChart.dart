@@ -9,18 +9,33 @@ import 'package:flutter/material.dart';
 import '../Library/Globals.dart';
 import '../UI/NotificationList.dart';
 
-class formChart extends StatelessWidget {
+
+class formChart extends StatefulWidget {
+  Plot PlotKey;
+  Color color;
+  String type;
+
+  formChart({Key key, @required this.PlotKey, this.color, this.type}) : super(key: key);
+
+  @override
+  formChartState createState() {
+
+    return formChartState();
+  }
+
+
+}
+
+class formChartState  extends State<formChart> {
   Plot PlotKey;
   List<DataElement> data = new List<DataElement>();
 
-  Color color;
-  String type;
+
   Color colorAccent = Colors.redAccent;
   final PageController ctrl = PageController();
   final FirebaseDatabase _database = FirebaseDatabase.instance;
 
-  formChart({Key key, @required this.PlotKey, this.type, this.color})
-      : super(key: key);
+
 
   Future<String> waitToLastPage() async {
     return new Future.delayed(Duration(milliseconds: 2000), () => "1");
@@ -30,14 +45,14 @@ class formChart extends StatelessWidget {
   Widget build(BuildContext context) {
     HandleData();
     print("************* DEBUG **************");
-    print(" CATALOG_TYPE >  " + CATALOG_TYPES[type]);
-    print(" CATALOG_NAME >  " + CATALOG_NAMES[CATALOG_TYPES[type]]);
+    print(" CATALOG_TYPE >  " + CATALOG_TYPES[widget.type]);
+    print(" CATALOG_NAME >  " + CATALOG_NAMES[CATALOG_TYPES[widget.type]]);
 
     return Scaffold(
         appBar: AppBar(
           title:
-              Text(CATALOG_NAMES[CATALOG_TYPES[type]] + " of " + PlotKey.Name),
-          backgroundColor: color,
+              Text(CATALOG_NAMES[CATALOG_TYPES[widget.type]] + " of " + PlotKey.Name),
+          backgroundColor: widget.color,
         ),
         body: FutureBuilder(
             future: waitToLastPage(),
@@ -93,7 +108,7 @@ class formChart extends StatelessWidget {
 
   List<Widget> _createTabs(context) {
     List<DataElement> DataElements = this.data.map((DataElement item) {
-      int p = int.parse(CATALOG_TYPES[type.toLowerCase()]);
+      int p = int.parse(CATALOG_TYPES[widget.type.toLowerCase()]);
       if (item.Types.contains(p)) {
         return item;
       }
@@ -174,9 +189,9 @@ class formChart extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 18),
                     child: Text(
-                      CATALOG_NAMES[CATALOG_TYPES[type]] +
+                      CATALOG_NAMES[CATALOG_TYPES[widget.type]] +
                           " (" +
-                          MEASURING_UNITS[type] +
+                          MEASURING_UNITS[widget.type] +
                           " ) " +
                           days,
                       style: TextStyle(fontSize: 20.0),
@@ -190,7 +205,7 @@ class formChart extends StatelessWidget {
                 child: Container(
                   width: 300,
                   child: Material(
-                    color: color,
+                    color: widget.color,
                     elevation: 4.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: Padding(
@@ -206,7 +221,7 @@ class formChart extends StatelessWidget {
                                     fontSize: 26, color: Colors.white),
                               ),
                               Text(
-                                maxValue.toString() + MEASURING_UNITS[type],
+                                maxValue.toString() + MEASURING_UNITS[widget.type],
                                 style: TextStyle(
                                     fontSize: 24, color: Colors.white),
                               ),
@@ -220,7 +235,7 @@ class formChart extends StatelessWidget {
                                     fontSize: 26, color: Colors.white),
                               ),
                               Text(
-                                minValue.toString() + MEASURING_UNITS[type],
+                                minValue.toString() + MEASURING_UNITS[widget.type],
                                 style: TextStyle(
                                     fontSize: 24, color: Colors.white),
                               ),
@@ -239,7 +254,7 @@ class formChart extends StatelessWidget {
                   width: 290,
                   child: Padding(
                       padding: const EdgeInsets.only(right: 15.0),
-                      child: LineChart.createData(color, data, type, 100)),
+                      child: LineChart.createData(widget.color, data, widget.type, 100)),
                 ),
               ),
 
@@ -257,7 +272,7 @@ class formChart extends StatelessWidget {
     final List<int> dataList = [];
 
     for (var i = 0; i < DataElements.length; i++) {
-      int j = DataElements[i].Types.indexOf(CATALOG_TYPES[type.toLowerCase()]);
+      int j = DataElements[i].Types.indexOf(CATALOG_TYPES[widget.type.toLowerCase()]);
       if (j != -1) {
         dataList.add(DataElements[i].Fields[j]);
       }
@@ -278,7 +293,7 @@ class formChart extends StatelessWidget {
     final List<int> dataList = [];
 
     for (var i = 0; i < DataElements.length; i++) {
-      int j = DataElements[i].Types.indexOf(CATALOG_TYPES[type.toLowerCase()]);
+      int j = DataElements[i].Types.indexOf(CATALOG_TYPES[widget.type.toLowerCase()]);
 
       if (j != -1) {
         dataList.add(DataElements[i].Fields[j]);

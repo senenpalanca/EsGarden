@@ -27,7 +27,7 @@ class formChart extends StatefulWidget {
 }
 
 class formChartState  extends State<formChart> {
-  Plot PlotKey;
+
   List<DataElement> data = new List<DataElement>();
 
 
@@ -43,6 +43,7 @@ class formChartState  extends State<formChart> {
 
   @override
   Widget build(BuildContext context) {
+
     HandleData();
     print("************* DEBUG **************");
     print(" CATALOG_TYPE >  " + CATALOG_TYPES[widget.type]);
@@ -51,7 +52,7 @@ class formChartState  extends State<formChart> {
     return Scaffold(
         appBar: AppBar(
           title:
-              Text(CATALOG_NAMES[CATALOG_TYPES[widget.type]] + " of " + PlotKey.Name),
+              Text(CATALOG_NAMES[CATALOG_TYPES[widget.type]] + " of " + widget.PlotKey.Name),
           backgroundColor: widget.color,
         ),
         body: FutureBuilder(
@@ -81,9 +82,9 @@ class formChartState  extends State<formChart> {
     _database
         .reference()
         .child("Gardens")
-        .child(PlotKey.parent)
+        .child(widget.PlotKey.parent)
         .child("sensorData")
-        .child(PlotKey.key)
+        .child(widget.PlotKey.key)
         .child("Data")
         .onChildAdded
         .listen(_onNewDataElement);
@@ -142,7 +143,7 @@ class formChartState  extends State<formChart> {
           context, dias[dias.keys.toList()[i]], dias.length - (i + 1)));
     }
 
-    fin.add(NotificationList(PlotKey.alerts["T1"]));
+    fin.add(NotificationList(widget.PlotKey.alerts["T1"]));
 
     return fin;
   }
@@ -177,7 +178,7 @@ class formChartState  extends State<formChart> {
             context,
             MaterialPageRoute(
                 builder: (context) => formVisualization(
-                      PlotKey: PlotKey,
+                      PlotKey: widget.PlotKey,
                     )),
           );
         },

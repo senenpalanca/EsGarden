@@ -22,6 +22,7 @@ class MainPlotItems extends StatefulWidget {
 
   @override
   MainPlotItemsState createState() {
+
     final _database = FirebaseDatabase.instance.reference();
     final databaseReference = _database
         .child("Gardens")
@@ -47,6 +48,7 @@ class MainPlotItemsState extends State<MainPlotItems> {
   bool firstTime = true;
   String textToAdd = "";
   String textToView = "";
+
   final _database = FirebaseDatabase.instance.reference();
   List<String> allItems = new List<String>();
   List itemsListView = new List<

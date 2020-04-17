@@ -5,6 +5,7 @@ import "package:esgarden/Structure/Orchard.dart";
 
 bool isLogged = false;
 bool isAdmin;
+int gardensNo = 0;
 
 List<Orchard> orchards = new List();
 List<CatalogItem> catalog = new List();

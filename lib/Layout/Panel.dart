@@ -1,32 +1,67 @@
 import 'package:esgarden/Layout/Home.dart';
 import 'package:esgarden/Library/Globals.dart' as Globals;
+import 'package:esgarden/Structure/Orchard.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Panel extends StatelessWidget {
-  List orchards = Globals.orchards;
-  List catalog = Globals.catalog;
+  List<Orchard> orchards = [];
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
 
   Panel({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    HandleData();
     return Scaffold(
         appBar: AppBar(
-          title: Text("Main Panel"),
+          title: Text("Main Board"),
           backgroundColor: Colors.green,
         ),
-        body: Container(
-          color: Colors.white,
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            padding: const EdgeInsets.all(10.0),
-            children: <Widget>[
-              _buildOrchardCard(context),
-              //_buildCatalogCard(context),
-            ],
-          ),
+        body:  FutureBuilder(
+          future: getDataFromFuture(),
+          builder: (context, snapshot) {
+            if (snapshot.data != null) {
+              return formUI(context);
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ));
+  }
+
+  HandleData() {
+    orchards.clear();
+    _database
+        .reference()
+        .child('Gardens')
+        .onChildAdded
+        .listen(_onNewVegetable);
+  }
+
+  Widget formUI(BuildContext context){
+    return Container(
+      color: Colors.white,
+      child: ListView(
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.all(10.0),
+        children: <Widget>[
+          _buildOrchardCard(context),
+          //_buildCatalogCard(context),
+        ],
+      ),
+    );
+  }
+
+  void _onNewVegetable(Event event) {
+    Orchard n = Orchard.fromSnapshot(event.snapshot);
+    orchards.add(n);
+  }
+
+  Future<String> getDataFromFuture() async {
+    return new Future.delayed(Duration(milliseconds: 2000), () => "WaitFinish");
   }
 
   Widget _buildOrchardCard(BuildContext context) {
@@ -75,7 +110,7 @@ class Panel extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 20.0, left: 40),
                             child: Text(
-                              "2" + " Garden(s)",
+                              orchards.length.toString() + " Garden(s)",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 35.0,
@@ -97,7 +132,8 @@ class Panel extends StatelessWidget {
       ),
     ));
   }
-
+  /*
+  DEPRECATED
   Widget _buildCatalogCard(BuildContext context) {
     return Container(
         child: Padding(
@@ -161,4 +197,7 @@ class Panel extends StatelessWidget {
       ),
     ));
   }
+*/
+
+
 }

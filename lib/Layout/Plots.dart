@@ -47,7 +47,7 @@ class PlotsOfGarden extends StatelessWidget {
               onPressed: () {
                 final _database = FirebaseDatabase.instance.reference();
                 final databaseReference =
-                    _database.child("usuarios").child(OrchardKey.key).remove();
+                    _database.child("Gardens").child(OrchardKey.key).remove();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Home()),
@@ -147,8 +147,8 @@ class PlotsOfGarden extends StatelessWidget {
   }
 
   _handleData() {
-    DatabaseReference usuarios = _databasePlots.reference().child('usuarios');
-    DatabaseReference usuario = usuarios.reference().child(OrchardKey.key);
+    DatabaseReference Gardens = _databasePlots.reference().child('Gardens');
+    DatabaseReference usuario = Gardens.reference().child(OrchardKey.key);
     usuario.reference().child('sensorData').onChildAdded.listen(_onNewPlot);
   }
 

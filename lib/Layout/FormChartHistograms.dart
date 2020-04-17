@@ -40,7 +40,7 @@ class formChartHistograms extends StatelessWidget {
     data.clear();
     _database
         .reference()
-        .child("usuarios")
+        .child("Gardens")
         .child(PlotKey.parent)
         .child("sensorData")
         .child(PlotKey.key)

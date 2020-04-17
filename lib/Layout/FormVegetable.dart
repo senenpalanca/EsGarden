@@ -55,7 +55,7 @@ class formVegetable extends StatelessWidget {
 
     _database
         .reference()
-        .child('Vegetable')
+        .child('Vegetables')
         .onChildAdded
         .listen(_onNewVegetable);
   }

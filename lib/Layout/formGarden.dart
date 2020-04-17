@@ -126,7 +126,7 @@ class FormGardenState extends State<FormGarden> {
       img =
           "https://northgwinnettcoop.org/wp-content/uploads/2017/06/Fresh-Fruits-Vegetables.jpg";
     }
-    final databaseReference = _database.child("usuarios");
+    final databaseReference = _database.child("Gardens");
     databaseReference.child(nameContoller.text).set({
       'City': cityContoller.text,
       //'Vegetable': vegetableContoller.text,

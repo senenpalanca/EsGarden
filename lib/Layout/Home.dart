@@ -63,7 +63,7 @@ class Home extends StatelessWidget {
   }
 
   _handleData() {
-    DatabaseReference gardensref = _database.reference().child('usuarios');
+    DatabaseReference gardensref = _database.reference().child('Gardens');
     gardensref.reference().onChildAdded.listen(_onNewGarden);
   }
 

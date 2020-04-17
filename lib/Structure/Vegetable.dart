@@ -8,11 +8,8 @@ class Vegetable {
   String imgBig;
   int tmpMax;
   int tmpMin;
-  int hsupMax;
-  int hsupMin;
   String name;
   String continent;
-
   Vegetable(this.key, this.name, this.Description, this.Img, this.tmpMax,
       this.tmpMin);
 
@@ -24,8 +21,6 @@ class Vegetable {
         Img = snapshot.value["img"],
         tmpMax = snapshot.value["temp_max"],
         tmpMin = snapshot.value["temp_min"],
-        hsupMax = snapshot.value["hum_max30"],
-        hsupMin = snapshot.value["hum_min30"],
         continent = snapshot.value["continent"],
         imgBig = snapshot.value["img1200x900"];
 

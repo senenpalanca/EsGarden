@@ -22,14 +22,6 @@ class LineChart extends StatelessWidget {
     );
   }
 
-  factory LineChart.createDoubleData(List data, List dataTypes, int maxValue) {
-    return new LineChart(
-      _createDoubleData(data, dataTypes),
-      maxValue,
-      0,
-      animate: true,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,17 +101,21 @@ class LineChart extends StatelessWidget {
       dataLists[n] = [];
     }
     for (var i = 0; i < DataElements.length; i++) {
-      int typeNo = int.parse(CATALOG_TYPES[type.toLowerCase()]);
-      List value = _actualize(DataElements[i].Values[typeNo]);
-      for (var j = 0; j < value.length; j++) {
-        if (DataElements[i].Types.contains(typeNo)) {
-          //Comprobación Innecesaria, se ha hecho en FormChart
-          if (value[j] != null) {
-            dataLists[j].add(new TimeSeriesValue(DataElements[i].timestamp,
-                value[j] /* DataElements[i].Fields[j]*/));
-          } else {
-            dataLists[j].add(new TimeSeriesValue(
-                DataElements[i].timestamp, 0 /* DataElements[i].Fields[j]*/));
+
+      var typeNo = int.parse(CATALOG_TYPES[type.toLowerCase()]);
+
+      List value = DataElements[i].Values[typeNo];
+      if(value != null) {
+        for (var j = 0; j < value.length; j++) {
+          if (DataElements[i].Types.contains(typeNo)) {
+            //Comprobación Innecesaria, se ha hecho en FormChart
+            if (value[j] != null) {
+              dataLists[j].add(new TimeSeriesValue(DataElements[i].timestamp,
+                  value[j] /* DataElements[i].Fields[j]*/));
+            } else {
+              dataLists[j].add(new TimeSeriesValue(
+                  DataElements[i].timestamp, 0 /* DataElements[i].Fields[j]*/));
+            }
           }
         }
       }
@@ -142,67 +138,28 @@ class LineChart extends StatelessWidget {
     ];*/
   }
 
-  static List<charts.Series<TimeSeriesValue, DateTime>> _createDoubleData(
-      List<DataElement> data, List<String> types) {
-    List<DataElement> DataElements = new List<DataElement>.from(data);
-    DataElements.removeWhere((value) => value == null);
-    final List<TimeSeriesValue> dataList1 = [];
-    final List<TimeSeriesValue> dataList2 = [];
 
-    for (var i = 0; i < DataElements.length; i++) {
-      int j =
-          DataElements[i].Types.indexOf(CATALOG_TYPES[types[0].toLowerCase()]);
-      if (j != -1) {
-        dataList1.add(new TimeSeriesValue(
-            DataElements[i].timestamp, 10 /* DataElements[i].Fields[j]*/));
-      }
-      int k =
-          DataElements[i].Types.indexOf(CATALOG_TYPES[types[1].toLowerCase()]);
-      if (k != -1) {
-        dataList2.add(new TimeSeriesValue(
-            DataElements[i].timestamp,
-            10 /* DataElements[i].Fields[k]*/ -
-                10 /* DataElements[i].Fields[j]*/));
-      }
-    }
+  static List<charts.Series<TimeSeriesValue, DateTime>> _createSeries(Map<int, List<TimeSeriesValue>> dataLists, Color color) {
 
-    return [
-      new charts.Series<TimeSeriesValue, DateTime>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.cyan.shadeDefault.darker,
-        areaColorFn: (_, __) =>
-            charts.MaterialPalette.cyan.shadeDefault.lighter,
-        domainFn: (TimeSeriesValue item, _) => item.time,
-        measureFn: (TimeSeriesValue item, _) => item.value,
-        data: dataList1,
-      ),
-      new charts.Series<TimeSeriesValue, DateTime>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        areaColorFn: (_, __) =>
-            charts.MaterialPalette.blue.shadeDefault.lighter,
-        domainFn: (TimeSeriesValue item, _) => item.time,
-        measureFn: (TimeSeriesValue item, _) => item.value,
-        data: dataList2,
-      )
-    ];
-  }
-
-  static List<charts.Series<TimeSeriesValue, DateTime>> _createSeries(
-      Map<int, List<TimeSeriesValue>> dataLists, Color color) {
     List<charts.Series<TimeSeriesValue, DateTime>> ret = [];
-    List<Color> colors = [
-      Colors.redAccent,
-      Colors.orange,
-      Colors.yellowAccent,
-      Colors.green
-    ].reversed.toList();
-    if (color == Colors.blue) {
-      List<Color> colors = [
-        Colors.cyanAccent,
-        Colors.lightBlueAccent,
-        Colors.blueAccent
-      ];
+    List<Color> colors = [color];
+    if(dataLists.keys.length>1) {
+      if (color == Colors.blue) { //IF COME FROM BLUE COLOR
+
+        colors = [
+          Colors.cyanAccent,
+          Colors.lightBlueAccent,
+          Colors.blueAccent,
+          Colors.indigo
+        ];
+      } else if (color == Colors.red) {
+        colors = [ //PREDET. COLORS
+          Colors.green,
+          Colors.yellowAccent,
+          Colors.orange,
+          Colors.redAccent,
+        ];
+      }
     }
 
     //List<charts.MaterialPalette> colors = [charts.MaterialPalette.blue.shadeDefault,charts.MaterialPalette.cyan.shadeDefault.darker ];

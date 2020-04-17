@@ -55,6 +55,7 @@ class formChartHistograms extends StatelessWidget {
   }
 
   Widget formUI(BuildContext context) {
+
     return Container(
       color: Colors.white70,
       child: ListView(
@@ -125,7 +126,7 @@ class formChartHistograms extends StatelessWidget {
                       builder: (context) => formChartAllData(
                             PlotKey: PlotKey,
                             color: Colors.blue,
-                            dataType: 'upperhumidity',
+                            dataType: 'soilhumidity',
                           )));
             },
             child: Container(
@@ -162,7 +163,7 @@ class formChartHistograms extends StatelessWidget {
                               padding:
                                   const EdgeInsets.only(left: 16, bottom: 16),
                               child: LineChart.createData(
-                                  Colors.blue, data, "upperhumidity", 100),
+                                  Colors.blue, data, "soilhumidity", 100),
                             ),
                           ),
                         ],

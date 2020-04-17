@@ -200,7 +200,7 @@ class formVegetable extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: Column(
-                          children: <Widget>[
+                          children: <Widget>[/*
                             Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Row(
@@ -220,7 +220,7 @@ class formVegetable extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            ),
+                            ),*/
                             Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Row(

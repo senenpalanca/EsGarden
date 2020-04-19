@@ -1,3 +1,4 @@
+import 'package:esgarden/Layout/DayTab.dart';
 import 'package:esgarden/Layout/FormVisualization.dart';
 import 'package:esgarden/Structure/DataElement.dart';
 import 'package:esgarden/Structure/Plot.dart';
@@ -5,7 +6,8 @@ import 'package:esgarden/UI/LineChart.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/material.dart';
 import '../Library/Globals.dart';
 import '../UI/NotificationList.dart';
 
@@ -14,7 +16,9 @@ class formChart extends StatefulWidget {
   Plot PlotKey;
   Color color;
   String type;
-
+  DateTime _time;
+  Map<String, num> _measures;
+  bool firstTime = true;
   formChart({Key key, @required this.PlotKey, this.color, this.type}) : super(key: key);
 
   @override
@@ -29,8 +33,9 @@ class formChart extends StatefulWidget {
 class formChartState  extends State<formChart> {
 
   List<DataElement> data = new List<DataElement>();
+  //Visualización
 
-
+  List<Widget> tabs = [];
   Color colorAccent = Colors.redAccent;
   final PageController ctrl = PageController();
   final FirebaseDatabase _database = FirebaseDatabase.instance;
@@ -38,7 +43,7 @@ class formChartState  extends State<formChart> {
 
 
   Future<String> waitToLastPage() async {
-    return new Future.delayed(Duration(milliseconds: 2000), () => "1");
+    return new Future.delayed(Duration(milliseconds: 1000), () => "1");
   }
 
   @override
@@ -55,28 +60,44 @@ class formChartState  extends State<formChart> {
               Text(CATALOG_NAMES[CATALOG_TYPES[widget.type]] + " of " + widget.PlotKey.Name),
           backgroundColor: widget.color,
         ),
-        body: FutureBuilder(
-            future: waitToLastPage(),
-            builder: (context, snapshot) {
-              if (snapshot.data != null) {
-                List<Widget> buf = _createTabs(context);
-                ctrl.jumpToPage(buf.length - 2);
-                return PageView(
-                  scrollDirection: Axis.horizontal,
-                  controller: ctrl,
-                  children: buf,
-                );
-              }
+        body: FormUI(),
+    );
+  }
+  Widget FormUI() {
+    if (widget.firstTime) {
+
+      widget.firstTime = false;
+      return FutureBuilder(
+          future: waitToLastPage(),
+          builder: (context, snapshot) {
+            if (snapshot.data != null) {
+              List<Widget> buf = _createTabs(context);
+              tabs = buf;
+              ctrl.jumpToPage(buf.length - 2);
               return PageView(
                 scrollDirection: Axis.horizontal,
                 controller: ctrl,
-                children: <Widget>[
-                  Center(child: CircularProgressIndicator()),
-                ],
+                children: buf,
               );
-            }));
-  }
+            }
+            return PageView(
+              scrollDirection: Axis.horizontal,
+              controller: ctrl,
+              children: <Widget>[
+                Center(child: CircularProgressIndicator()),
+              ],
+            );
+          }
+      );
+    }
 
+    ctrl.jumpToPage(tabs.length - 2);
+    return PageView(
+      scrollDirection: Axis.horizontal,
+      controller: ctrl,
+      children: tabs,
+    );
+  }
   HandleData() {
     data.clear();
     _database
@@ -139,8 +160,11 @@ class formChartState  extends State<formChart> {
     //Pasar el último valor de cada día
     List<Widget> fin = [];
     for (int i = 0; i < dias.length; i++) {
-      fin.add(createGraph(
-          context, dias[dias.keys.toList()[i]], dias.length - (i + 1)));
+      Widget tab = new DayTab();
+      fin.add(new DayTab(data: dias[dias.keys.toList()[i]], day: dias.length - (i + 1) ,color: widget.color,type: widget.type,PlotKey: widget.PlotKey,));
+      /*fin.add(
+          createGraph(
+          context, dias[dias.keys.toList()[i]], dias.length - (i + 1)));*/
     }
 
     fin.add(NotificationList(widget.PlotKey.alerts["T1"]));
@@ -148,166 +172,40 @@ class formChartState  extends State<formChart> {
     return fin;
   }
 
-  Widget createGraph(
-    BuildContext context,
-    List<DataElement> data,
-    int day,
-  ) {
-    String days;
-    switch (day) {
-      case 0:
-        days = "Today";
-        break;
-      case 1:
-        days = "Yesterday";
-        break;
-      default:
-        days = day.toString() + " days ago";
-        break;
+
+  charts.SelectionModelConfig<DateTime> selectionModelConfig(){
+    return  new charts.SelectionModelConfig(
+      type: charts.SelectionModelType.info,
+      changedListener: _onSelectionChanged,
+    );
+  }
+  _onSelectionChanged(charts.SelectionModel model) {
+
+    final selectedDatum = model.selectedDatum;
+
+    DateTime time;
+    final measures = <String, num>{};
+
+    // We get the model that updated with a list of [SeriesDatum] which is
+    // simply a pair of series & datum.
+    //
+    // Walk the selection updating the measures map, storing off the sales and
+    // series name for each selection point.
+    if (selectedDatum.isNotEmpty) {
+      time = selectedDatum.first.datum.time;
+      selectedDatum.forEach((charts.SeriesDatum datumPair) {
+        print(datumPair.datum.toString());
+        //measures[datumPair.series.displayName] = datumPair.datum.item;
+      });
     }
 
-    int maxValue = _getHighestValue(data);
-    int minValue = _getLowestValue(data, maxValue);
-
-    return Container(
-        child: Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => formVisualization(
-                      PlotKey: widget.PlotKey,
-                    )),
-          );
-        },
-        child: Card(
-          child: ListView(
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 18),
-                    child: Text(
-                      CATALOG_NAMES[CATALOG_TYPES[widget.type]] +
-                          " (" +
-                          MEASURING_UNITS[widget.type] +
-                          " ) " +
-                          days,
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 15, left: 30, right: 30, bottom: 15),
-                child: Container(
-                  width: 300,
-                  child: Material(
-                    color: widget.color,
-                    elevation: 4.0,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                "MAX",
-                                style: TextStyle(
-                                    fontSize: 26, color: Colors.white),
-                              ),
-                              Text(
-                                maxValue.toString() + MEASURING_UNITS[widget.type],
-                                style: TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                "MIN",
-                                style: TextStyle(
-                                    fontSize: 26, color: Colors.white),
-                              ),
-                              Text(
-                                minValue.toString() + MEASURING_UNITS[widget.type],
-                                style: TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, top: 50),
-                child: Container(
-                  height: 320,
-                  width: 290,
-                  child: Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: LineChart.createData(widget.color, data, widget.type, 100)),
-                ),
-              ),
-
-              //_createNotificationTab(notifications),
-            ],
-          ),
-        ),
-      ),
-    ));
+    // Request a build.
+    setState(() {
+      widget._time = time;
+      widget._measures = measures;
+    });
   }
 
-  int _getLowestValue(List data, int maxValue) {
-    List DataElements = data;
-    DataElements.removeWhere((value) => value == null);
-    final List<int> dataList = [];
 
-    for (var i = 0; i < DataElements.length; i++) {
-      int j = DataElements[i].Types.indexOf(CATALOG_TYPES[widget.type.toLowerCase()]);
-      if (j != -1) {
-        dataList.add(DataElements[i].Fields[j]);
-      }
-    }
 
-    int lowest = maxValue;
-    for (var i = 0; i < dataList.length; i++) {
-      if (dataList[i] < lowest) {
-        lowest = dataList[i];
-      }
-    }
-    return lowest;
-  }
-
-  int _getHighestValue(List data) {
-    List DataElements = data;
-    DataElements.removeWhere((value) => value == null);
-    final List<int> dataList = [];
-
-    for (var i = 0; i < DataElements.length; i++) {
-      int j = DataElements[i].Types.indexOf(CATALOG_TYPES[widget.type.toLowerCase()]);
-
-      if (j != -1) {
-        dataList.add(DataElements[i].Fields[j]);
-      }
-    }
-
-    int highest = 0;
-    for (var i = 0; i < dataList.length; i++) {
-      if (dataList[i] > highest) {
-        highest = dataList[i];
-      }
-    }
-
-    return highest;
-  }
 }

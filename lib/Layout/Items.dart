@@ -4,6 +4,7 @@ import 'package:esgarden/Layout/Calendar.dart';
 import 'package:esgarden/Layout/FormChartHistograms.dart';
 import 'package:esgarden/Layout/FormVegetable.dart';
 import 'package:esgarden/Layout/Home.dart';
+import 'package:esgarden/Layout/SelectionCallbackEx.dart';
 import 'package:esgarden/Layout/formChart.dart';
 import 'package:esgarden/Library/Globals.dart' as globals;
 import 'package:esgarden/Structure/Plot.dart';
@@ -543,10 +544,11 @@ class MainPlotItemsState extends State<MainPlotItems> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => formChart(
+                      builder: (context) =>SelectionCallbackExample.withSampleData() /*formChart(
                           PlotKey: widget.PlotKey,
                           color: Colors.blue,
-                          type: "ph")),
+                          type: "ph")*/
+                  ),
                 );
               },
               child: Card(

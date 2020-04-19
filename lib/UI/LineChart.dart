@@ -8,18 +8,12 @@ class LineChart extends StatelessWidget {
   final bool animate;
   int highest;
   int lowest;
-
-  LineChart(this.seriesList, this.highest, this.lowest, {this.animate});
+  charts.SelectionModelConfig<DateTime> SelectionModelConfig = null;
+  LineChart(this.seriesList, this.highest, this.lowest, this.SelectionModelConfig, {this.animate});
 
   /// Creates a [LineChart] with sample data and no transition.
-  factory LineChart.createData(
-      Color color, List data, String type, int maxValue) {
-    return new LineChart(
-      _createData(color, data, type),
-      maxValue,
-      0,
-      animate: true,
-    );
+  factory LineChart.createData( Color color, List data, String type, int maxValue, charts.SelectionModelConfig<DateTime> selectionModelConfig) {
+        return new LineChart( _createData(color, data, type), maxValue, 0, selectionModelConfig, animate: true,        );
   }
 
 
@@ -33,6 +27,9 @@ class LineChart extends StatelessWidget {
             //includePoints: true,
             includeLine: true),
         animate: false,
+        /*selectionModels: [
+          SelectionModelConfig
+        ],*/
         behaviors: [
           new charts.PanAndZoomBehavior(),
           new charts.SlidingViewport(),

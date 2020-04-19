@@ -19,6 +19,8 @@ class formChartAllData extends StatelessWidget {
   formChartAllData({Key key, @required this.PlotKey, this.color, this.dataType})
       : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
     HandleData();
@@ -97,7 +99,7 @@ class formChartAllData extends StatelessWidget {
                             padding:
                                 const EdgeInsets.only(left: 16, bottom: 16),
                             child: LineChart.createData(
-                                color, data, dataType, 100),
+                                color, data, dataType, 100, null),
                           ),
                         ),
                       ],

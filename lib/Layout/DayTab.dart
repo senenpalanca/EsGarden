@@ -137,7 +137,7 @@ class DayTabState extends State<DayTab>{
                       width: 290,
                       child: Padding(
                           padding: const EdgeInsets.only(right: 15.0),
-                          child: LineChart.createData(widget.color, widget.data, widget.type, 100, selectionModelConfig())),
+                          child: LineChart.createData( widget.color,widget.data,widget.type,100,selectionModelConfig()))//LineChart(widget.color, widget.data, widget.type, 100, selectionModelConfig())),
                     ),
                   ),
                   Padding(

@@ -4,7 +4,7 @@
 
 La aplicación desarrollada en este repositorio forma parte del proyecto educativo ESchoolGarden, que trata de educar en valores de sostenibilidad, eficiencia y respeto por el medio ambiente a los estudiantes de distintas partes del mundo por medio de tecnologías aplicables en un jardín. Se pueden consultar todos los detalles del proyecto a través del siguiente link: https://eschoolgarden.eu/ 
 
-La aplicación permite visualizar en tiempo real el estado de los múltiples jardines, divididos en parcelas. Además, ofrece una serie de gráficas que facilitan el entendimiento de los cambios que se producen y que son detectados por los sensores. 
+La aplicación desarrollada en este repositorio permite visualizar en tiempo real el estado de los múltiples jardines, divididos en parcelas. Además, ofrece una serie de gráficas que facilitan el entendimiento de los cambios que se producen y que son detectados por los sensores. 
 
 <img src="images/Capt1.jpeg" width=200>     <img src="images/Capt2.jpeg" width=200>       <img src="images/Capt3.jpeg" width=200>       <img src="images/Capt4.jpeg" width=200>
 

@@ -1,5 +1,5 @@
 # EsGarden Android App
-<img src="images/Capt1.jpeg" width=200 >
+
 <div class="row">
   <div class="column">
     <img src="images/Capt1.jpeg" width=200>

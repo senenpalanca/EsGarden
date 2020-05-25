@@ -185,12 +185,13 @@ class formChartState  extends State<formChart> {
 
     DateTime time;
     final measures = <String, num>{};
-
     // We get the model that updated with a list of [SeriesDatum] which is
     // simply a pair of series & datum.
     //
     // Walk the selection updating the measures map, storing off the sales and
     // series name for each selection point.
+
+    
     if (selectedDatum.isNotEmpty) {
       time = selectedDatum.first.datum.time;
       selectedDatum.forEach((charts.SeriesDatum datumPair) {

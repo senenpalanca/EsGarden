@@ -1,5 +1,5 @@
 # EsGarden Android App
-<img src="images/Capt1.jpeg" >
+<img src="images/Capt1.jpeg" width=100 >
 La aplicación desarrollada en este repositorio forma parte del proyecto educativo ESchoolGarden, que trata de educar en valores de sostenibilidad, eficiencia y respeto por el medio ambiente a los estudiantes de distintas partes del mundo por medio de tecnologías aplicables en un jardín. Se pueden consultar todos los detalles del proyecto a través del siguiente link: https://eschoolgarden.eu/ 
 
 

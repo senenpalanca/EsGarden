@@ -1,13 +1,11 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:esgarden/Layout/DayTab.dart';
-import 'package:esgarden/Layout/FormVisualization.dart';
 import 'package:esgarden/Structure/DataElement.dart';
 import 'package:esgarden/Structure/Plot.dart';
-import 'package:esgarden/UI/LineChart.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:flutter/material.dart';
+
 import '../Library/Globals.dart';
 import '../UI/NotificationList.dart';
 
@@ -19,11 +17,11 @@ class formChart extends StatefulWidget {
   DateTime _time;
   Map<String, num> _measures;
   bool firstTime = true;
+
   formChart({Key key, @required this.PlotKey, this.color, this.type}) : super(key: key);
 
   @override
   formChartState createState() {
-
     return formChartState();
   }
 
@@ -33,6 +31,7 @@ class formChart extends StatefulWidget {
 class formChartState  extends State<formChart> {
 
   List<DataElement> data = new List<DataElement>();
+
   //Visualización
 
   List<Widget> tabs = [];
@@ -41,31 +40,30 @@ class formChartState  extends State<formChart> {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
 
 
-
   Future<String> waitToLastPage() async {
     return new Future.delayed(Duration(milliseconds: 1000), () => "1");
   }
 
   @override
   Widget build(BuildContext context) {
-
     HandleData();
     print("************* DEBUG **************");
     print(" CATALOG_TYPE >  " + CATALOG_TYPES[widget.type]);
     print(" CATALOG_NAME >  " + CATALOG_NAMES[CATALOG_TYPES[widget.type]]);
 
     return Scaffold(
-        appBar: AppBar(
-          title:
-              Text(CATALOG_NAMES[CATALOG_TYPES[widget.type]] + " of " + widget.PlotKey.Name),
-          backgroundColor: widget.color,
-        ),
-        body: FormUI(),
+      appBar: AppBar(
+        title:
+        Text(CATALOG_NAMES[CATALOG_TYPES[widget.type]] + " of " +
+            widget.PlotKey.Name),
+        backgroundColor: widget.color,
+      ),
+      body: FormUI(),
     );
   }
+
   Widget FormUI() {
     if (widget.firstTime) {
-
       widget.firstTime = false;
       return FutureBuilder(
           future: waitToLastPage(),
@@ -98,6 +96,7 @@ class formChartState  extends State<formChart> {
       children: tabs,
     );
   }
+
   HandleData() {
     data.clear();
     _database
@@ -145,7 +144,7 @@ class formChartState  extends State<formChart> {
 
       for (var index = 0; index < DataElements.length; index++) {
         String date =
-            _getDate(DataElements[index].timestamp.add(new Duration(hours: 1)));
+        _getDate(DataElements[index].timestamp.add(new Duration(hours: 1)));
 
         if (date == firstDate) {
           dias[date].add(DataElements[index]);
@@ -167,6 +166,7 @@ class formChartState  extends State<formChart> {
           context, dias[dias.keys.toList()[i]], dias.length - (i + 1)));*/
     }
 
+
     fin.add(NotificationList(widget.PlotKey.alerts["T1"]));
 
     return fin;
@@ -179,8 +179,8 @@ class formChartState  extends State<formChart> {
       changedListener: _onSelectionChanged,
     );
   }
-  _onSelectionChanged(charts.SelectionModel model) {
 
+  _onSelectionChanged(charts.SelectionModel model) {
     final selectedDatum = model.selectedDatum;
 
     DateTime time;
@@ -191,7 +191,7 @@ class formChartState  extends State<formChart> {
     // Walk the selection updating the measures map, storing off the sales and
     // series name for each selection point.
 
-    
+
     if (selectedDatum.isNotEmpty) {
       time = selectedDatum.first.datum.time;
       selectedDatum.forEach((charts.SeriesDatum datumPair) {
@@ -206,7 +206,6 @@ class formChartState  extends State<formChart> {
       widget._measures = measures;
     });
   }
-
 
 
 }

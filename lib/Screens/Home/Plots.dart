@@ -1,8 +1,8 @@
 import 'package:esgarden/Layout/Home.dart';
-import 'package:esgarden/Layout/createPlot.dart';
 import 'package:esgarden/Library/Globals.dart' as Globals;
-import 'package:esgarden/Structure/Orchard.dart';
-import 'package:esgarden/Structure/Plot.dart';
+import 'package:esgarden/Models/Orchard.dart';
+import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Screens/Create/createPlot.dart';
 import 'package:esgarden/UI/CardPlot.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,7 +70,7 @@ class PlotsOfGarden extends StatelessWidget {
           actions: <Widget>[
             PopupMenuButton<int>(
                 onSelected: _manageMenuOptions,
-                enabled: Globals.isAdmin,
+                enabled: true,
                 itemBuilder: (BuildContext context) => [
                       PopupMenuItem(
                         enabled: false,

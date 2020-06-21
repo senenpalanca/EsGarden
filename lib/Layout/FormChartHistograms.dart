@@ -1,13 +1,11 @@
 import 'dart:ui';
 
 import 'package:esgarden/Layout/Histogram/FormChartAllData.dart';
-import 'package:esgarden/Structure/DataElement.dart';
-import 'package:esgarden/Structure/Plot.dart';
+import 'package:esgarden/Models/DataElement.dart';
+import 'package:esgarden/Models/Plot.dart';
 import 'package:esgarden/UI/LineChart.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
 class formChartHistograms extends StatelessWidget {
@@ -16,10 +14,6 @@ class formChartHistograms extends StatelessWidget {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
 
   formChartHistograms({Key key, @required this.PlotKey}) : super(key: key);
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +55,6 @@ class formChartHistograms extends StatelessWidget {
   }
 
   Widget formUI(BuildContext context) {
-
     return Container(
       color: Colors.white70,
       child: ListView(
@@ -114,8 +107,8 @@ class formChartHistograms extends StatelessWidget {
                               child: Padding(
                                 padding:
                                     const EdgeInsets.only(left: 16, bottom: 16),
-                                child: LineChart.createData(
-                                    Colors.red, data, "soiltemperature", 100, null),
+                                child: LineChart.createData(Colors.red, data,
+                                    "soiltemperature", 100, null),
                               ),
                             ),
                           ],

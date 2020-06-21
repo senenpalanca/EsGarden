@@ -1,10 +1,11 @@
 library globals;
 
-import "package:esgarden/Structure/CatalogItem.dart";
-import "package:esgarden/Structure/Orchard.dart";
+import 'package:esgarden/Models/CatalogItem.dart';
+import 'package:esgarden/Models/Orchard.dart';
+import 'package:flutter/material.dart';
 
 bool isLogged = false;
-bool isAdmin;
+bool isAdmin = false;
 int gardensNo = 0;
 
 List<Orchard> orchards = new List();
@@ -25,7 +26,7 @@ List months = [
 ];
 
 const Map<String, String> CATALOG_TYPES = const {
-  "luminosity": "00",
+  "brightness": "00",
   "ambienttemperature": "01",
   "ambienthumidity": "02",
   "ph": "03",
@@ -39,9 +40,9 @@ const Map<String, String> CATALOG_TYPES = const {
 
 const Map<String, String> CATALOG_NAMES = const {
   //AMBIENTE2
-  "00": "Luminosity", //Luminosidad
-  "01": "Ambient Temperature", //Temp ambiente
-  "02": "Ambient Humidity", //Hum. ambiente
+  "00": "Brightness", //Luminosidad
+  "01": "Temperature", //Temp ambiente
+  "02": "Humidity", //Hum. ambiente
   "03": "PH", //PH
   "04": "Relative Noise", //Ruido relativo
   "05": "Air Quality", //Calidad del aire
@@ -59,7 +60,8 @@ const Map<String, String> MEASURING_UNITS = const {
   "ph": "",
   "soiltemperature": "º C",
   "soilhumidity": "%",
-  "luminosity": "Lux",
+  "brightness": "Lux",
+  "wind": "Mph",
   "ambienttemperature": "º C",
   "ambienthumidity": "%",
   "relativenoise": " units"
@@ -67,18 +69,55 @@ const Map<String, String> MEASURING_UNITS = const {
 
 const Map<String, List<String>> VALUE_RELATION = const {
   "soilhumidity": [
-    "upperhumidity",
-    "middleupperhumidity",
-    "middlelowerhumidity",
-    "lowerhumidity"
+    "Upper Humidity",
+    "Middle-Upper Humidity",
+    "Middle-Lower Humidity",
+    "Lower Humidity"
   ],
   "soiltemperature": [
-    "uppertemperature",
-    "middleuppertemperature",
-    "middlelowertemperature",
-    "lowertemperature"
+    "Upper Temperature",
+    "Middle-Upper Temperature",
+    "Middle-Lower Temperature",
+    "Lower Temperature"
   ],
+  /*"wind": [
+    "winddirection",
+    "windforce"
+  ],*/
 };
+const Map<String, List<String>> ITEMS_PLOTS = const {
+  "General": [
+    "Humidity",
+    "Temperature",
+    "GeoLocalization",
+    "Air Quality",
+    "Brightness",
+    "Wind"
+  ],
+  "Nursery": ["Brightness"],
+  "Compost": [
+    "Compost Humidity",
+    "Air Quality",
+    "Historic Data",
+    "Compost Temperature",
+    "Brightness"
+  ],
+  "Plot": ["Humidity", "Temperature"],
+};
+const List<String> typeTrends = [
+  "Nothing",
+  "Average",
+  "Polynomic",
+  "Logaritmic",
+];
+
+List<dynamic> colors = [
+  //PREDET. COLORS
+  Colors.green,
+  Colors.yellowAccent,
+  Colors.orange,
+  Colors.redAccent,
+];
 
 /*
 const Map<String, String> CATALOG_TYPES = const {

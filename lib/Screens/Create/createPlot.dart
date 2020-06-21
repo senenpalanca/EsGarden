@@ -1,7 +1,7 @@
 import 'package:esgarden/Library/Globals.dart' as Globals;
-import 'package:esgarden/Structure/Orchard.dart';
-import 'package:esgarden/Structure/Plot.dart';
-import 'package:esgarden/Structure/Vegetable.dart';
+import 'package:esgarden/Models/Orchard.dart';
+import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Models/Vegetable.dart';
 import 'package:esgarden/UI/PersonalizedField.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,9 +21,9 @@ class FormPlot extends StatefulWidget {
     // if(!vegetables.isEmpty){vegetables.clear();}
     final _database = FirebaseDatabase.instance.reference();
     final databaseReferenceVegetable =
-        _database.child("Vegetable").onChildAdded.listen(_onNewVegetable);
+        _database.child("Vegetables").onChildAdded.listen(_onNewVegetable);
     final databaseReferencePlot = _database
-        .child("usuarios")
+        .child("Gardens")
         .child(OrchardKey.key)
         .child("sensorData")
         .onChildAdded
@@ -101,7 +101,7 @@ class FormPlotState extends State<FormPlot> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Image.asset(
-                      'images/esGardenIconv2.png',
+                      'images/icon.png',
                       width: 300.0,
                     ),
                     PersonalizedField(nameContoller, "Name of the Plot", false,
@@ -170,7 +170,14 @@ class FormPlotState extends State<FormPlot> {
                                             '1',
                                             '2',
                                             '3',
-                                            '4'
+                                            '4',
+                                            '5',
+                                            '6',
+                                            '7',
+                                            '8',
+                                            '9',
+                                            '10',
+                                            '11'
                                           ].map((String value) {
                                             return new DropdownMenuItem<String>(
                                               value: value,

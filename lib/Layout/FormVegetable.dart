@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:esgarden/Structure/Plot.dart';
-import 'package:esgarden/Structure/Vegetable.dart';
+import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Models/Vegetable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -200,7 +200,8 @@ class formVegetable extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: Column(
-                          children: <Widget>[/*
+                          children: <Widget>[
+                            /*
                             Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Row(
@@ -232,7 +233,7 @@ class formVegetable extends StatelessWidget {
                                   ),
                                   Text(
                                     vegetable.tmpMin.toString() +
-                                        "º C - " +
+                                        "º C to " +
                                         vegetable.tmpMax.toString() +
                                         "º C",
                                     style: TextStyle(

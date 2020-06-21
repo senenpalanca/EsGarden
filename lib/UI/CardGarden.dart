@@ -1,6 +1,6 @@
 import 'package:badges/badges.dart';
-import 'package:esgarden/Layout/Plots.dart';
-import 'package:esgarden/Structure/Orchard.dart';
+import 'package:esgarden/Models/Orchard.dart';
+import 'package:esgarden/Screens/Home/Plots.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

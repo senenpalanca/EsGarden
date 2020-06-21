@@ -8,29 +8,6 @@ class DataElement {
   //List Fields;
   List Types;
 
-  /*
-  int Field1;
-  int Field2;
-  int Field3;
-  int Field4;
-
-  String FieldType1;
-  String FieldType2;
-  String FieldType3;
-  String FieldType4;
-
-  Field1 = snapshot.value["F1"],
-        Field2 = snapshot.value["F2"],
-        Field3 = snapshot.value["F3"],
-        Field4 = snapshot.value["F"],
-        Fields = _createFields(snapshot),
-        Types = _createTypes(snapshot),
-        FieldType2 = snapshot.value["T2"],
-        FieldType3 = snapshot.value["T3"],
-        FieldType4 = snapshot.value["T4"],
-
-
-^*/
   DateTime timestamp;
 
   DataElement(this.DataSlot, this.timestamp);
@@ -40,8 +17,9 @@ class DataElement {
         Types = _getTypes(snapshot),
         Values = _getValues(snapshot),
         timestamp = DateTime.fromMillisecondsSinceEpoch(
-            snapshot.value["timestamp"],
-            isUtc: true);
+          snapshot.value["timestamp"],
+          isUtc: true,
+        );
 
   toJson() {
     return {

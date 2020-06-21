@@ -1,6 +1,6 @@
 import 'package:badges/badges.dart';
-import 'package:esgarden/Layout/Items.dart';
-import 'package:esgarden/Structure/Plot.dart';
+import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Screens/Home/Items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -34,9 +34,11 @@ class CardPlot extends StatelessWidget {
             onTap: () {
               Navigator.push(
                   context,
-                  //MaterialPageRoute(builder: (context) => MainPlot(PlotKey: this.PlotKey)),
                   MaterialPageRoute(
-                      builder: (context) => MainPlotItems(PlotKey: PlotKey)));
+                      builder: (context) => LoadItems(PlotKey: this.PlotKey)));
+              /* MaterialPageRoute(
+                     builder: (context) => MainPlotItems(PlotKey: PlotKey))
+              );*/
             },
             child: Material(
                 color: Colors.white,
@@ -69,7 +71,7 @@ class CardPlot extends StatelessWidget {
 //formChartHistograms
                   // MaterialPageRoute(builder: (context) => formChartHistograms(PlotKey:PlotKey)));
                   MaterialPageRoute(
-                      builder: (context) => MainPlotItems(PlotKey: PlotKey)));
+                      builder: (context) => LoadItems(PlotKey: PlotKey)));
               //MaterialPageRoute(builder: (context) => Calendar(PlotKey:PlotKey)),
             },
             child: Material(

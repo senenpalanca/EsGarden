@@ -25,6 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   firebase_auth: ^0.15.3
   google_sign_in: ^4.1.1
+  provider: ^3.1.0
+  syncfusion_flutter_charts: ^18.1.56
   font_awesome_flutter: ^8.2.0
   dio: ^1.0.13
   firebase_database: ^3.1.1
@@ -48,6 +50,9 @@ flutter:
   uses-material-design: true
   assets:
     - images/icon.png
+    - images/NESW.png
+    - images/Ordenadas.jpg
+    - images/Interior.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

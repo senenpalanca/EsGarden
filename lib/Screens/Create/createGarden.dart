@@ -2,8 +2,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../Library/Globals.dart' as Globals;
-import '../UI/PersonalizedField.dart';
+import '../../Library/Globals.dart' as Globals;
+import '../../UI/PersonalizedField.dart';
 
 class FormGarden extends StatefulWidget {
   @override
@@ -22,6 +22,7 @@ class FormGardenState extends State<FormGarden> {
       floatingActionButton: createGardenButton(context),
       appBar: AppBar(
         title: Text("Create new Garden"),
+        backgroundColor: Colors.green,
       ),
       body: Form(child: formUI()),
     );
@@ -44,14 +45,14 @@ class FormGardenState extends State<FormGarden> {
         child: ListView(
           children: <Widget>[
             Container(
-              height: 600,
+              height: 480,
               child: Padding(
                 padding: const EdgeInsets.only(top: 30.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Image.asset(
-                      'images/esGardenIconv2.png',
+                      'images/icon.png',
                       width: 300.0,
                     ),
                     PersonalizedField(nameContoller, "Name of the Garden",
@@ -150,7 +151,7 @@ class FormGardenState extends State<FormGarden> {
             "Ambient Temperature",
             "Air Quality",
             "Ambient Humidity",
-            "Luminosity"
+            "Brightness"
           ],
           "Img": img,
           "Parent": nameContoller.text,
@@ -170,7 +171,7 @@ class FormGardenState extends State<FormGarden> {
           "Parent": nameContoller.text,
           "Vegetable": "General"
         },
-        "SoilCompost": {
+        "Compost": {
           "Name": "Compost",
           "Data": {},
           "Alerts": {

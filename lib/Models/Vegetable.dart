@@ -10,6 +10,7 @@ class Vegetable {
   int tmpMin;
   String name;
   String continent;
+
   Vegetable(this.key, this.name, this.Description, this.Img, this.tmpMax,
       this.tmpMin);
 

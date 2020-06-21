@@ -1,5 +1,5 @@
-import 'package:esgarden/Structure/Plot.dart';
-import 'package:esgarden/Structure/Vegetable.dart';
+import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Models/Vegetable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

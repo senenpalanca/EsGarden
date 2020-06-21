@@ -1,10 +1,12 @@
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:esgarden/Library/Globals.dart';
-import 'package:esgarden/Structure/DataElement.dart';
-import 'package:flutter/material.dart';
-import 'package:charts_flutter/src/text_style.dart' as style;
-import 'package:charts_flutter/src/text_element.dart';
 import 'dart:math';
+
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:charts_flutter/src/text_element.dart';
+import 'package:charts_flutter/src/text_style.dart' as style;
+import 'package:esgarden/Library/Globals.dart';
+import 'package:esgarden/Models/DataElement.dart';
+import 'package:flutter/material.dart';
+
 /*
 class LineCharts extends StatelessWidget{
   int highest;
@@ -133,18 +135,33 @@ class LineChart extends StatelessWidget {
   final measures = <String, num>{};
 
   charts.SelectionModelConfig<DateTime> SelectionModelConfig = null;
-  LineChart(this.seriesList, this.highest, this.lowest, this.SelectionModelConfig, this.firstColor, {this.animate});
+
+  LineChart(this.seriesList, this.highest, this.lowest,
+      this.SelectionModelConfig, this.firstColor,
+      {this.animate});
 
   /// Creates a [LineChart] with sample data and no transition.
 
-  factory LineChart.createData( Color color, List data, String type, int maxValue, charts.SelectionModelConfig<DateTime> selectionModelConfig) {
-        return new LineChart( _createData(color, data, type), maxValue, 0, selectionModelConfig, color,     );
-  }
-  static List<charts.Series<TimeSeriesValue, DateTime>> _createData(
+  factory LineChart.createData(
       Color color,
-      List<DataElement> data,
+      List data,
       String type,
-      ) {
+      int maxValue,
+      charts.SelectionModelConfig<DateTime> selectionModelConfig) {
+    return new LineChart(
+      _createData(color, data, type),
+      maxValue,
+      0,
+      selectionModelConfig,
+      color,
+    );
+  }
+
+  static List<charts.Series<TimeSeriesValue, DateTime>> _createData(
+    Color color,
+    List<DataElement> data,
+    String type,
+  ) {
     List<DataElement> DataElements = new List<DataElement>.from(data);
 
     DataElements.removeWhere((value) => value == null);
@@ -155,25 +172,31 @@ class LineChart extends StatelessWidget {
     if (VALUE_RELATION[type] != null) {
       numeroDeValores = VALUE_RELATION[type].length;
     }
+
+    if (type == "wind") {
+      //Arreglo para personalizar wind con gráfica de 1 valor y no de dos
+      numeroDeValores = 1;
+    }
     for (var n = 0; n < numeroDeValores; n++) {
       //Inicializa las listas
       dataLists[n] = [];
     }
     for (var i = 0; i < DataElements.length; i++) {
-
       var typeNo = int.parse(CATALOG_TYPES[type.toLowerCase()]);
 
       List value = DataElements[i].Values[typeNo];
-      if(value != null) {
-        for (var j = 0; j < value.length; j++) {
+      if (value != null) {
+        for (var j = 0; j < numeroDeValores; j++) {
           if (DataElements[i].Types.contains(typeNo)) {
             //Comprobación Innecesaria, se ha hecho en FormChart
             if (value[j] != null) {
-              dataLists[j].add(new TimeSeriesValue(DataElements[i].timestamp,
+              dataLists[j].add(new TimeSeriesValue(
+                  DataElements[i].timestamp.subtract(Duration(hours: 1)),
                   value[j] /* DataElements[i].Fields[j]*/));
             } else {
               dataLists[j].add(new TimeSeriesValue(
-                  DataElements[i].timestamp, 0 /* DataElements[i].Fields[j]*/));
+                  DataElements[i].timestamp.subtract(Duration(hours: 1)),
+                  0 /* DataElements[i].Fields[j]*/));
             }
           }
         }
@@ -197,13 +220,13 @@ class LineChart extends StatelessWidget {
     ];*/
   }
 
-
-  static List<charts.Series<TimeSeriesValue, DateTime>> _createSeries(Map<int, List<TimeSeriesValue>> dataLists, Color color) {
-
+  static List<charts.Series<TimeSeriesValue, DateTime>> _createSeries(
+      Map<int, List<TimeSeriesValue>> dataLists, Color color) {
     List<charts.Series<TimeSeriesValue, DateTime>> ret = [];
     List<Color> colors = [color];
-    if(dataLists.keys.length>1) {
-      if (color == Colors.blue) { //IF COME FROM BLUE COLOR
+    if (dataLists.keys.length > 1) {
+      if (color == Colors.blue) {
+        //IF COME FROM BLUE COLOR
 
         colors = [
           Colors.green,
@@ -212,7 +235,8 @@ class LineChart extends StatelessWidget {
           Colors.redAccent,
         ];
       } else if (color == Colors.red) {
-        colors = [ //PREDET. COLORS
+        colors = [
+          //PREDET. COLORS
           Colors.green,
           Colors.yellowAccent,
           Colors.orange,
@@ -227,7 +251,7 @@ class LineChart extends StatelessWidget {
         id: 'Sales',
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(colors[i]).darker,
         areaColorFn: (_, __) =>
-        charts.ColorUtil.fromDartColor(colors[i]).lighter,
+            charts.ColorUtil.fromDartColor(colors[i]).lighter,
         //charts.MaterialPalette.cyan.shadeDefault.lighter,
         domainFn: (TimeSeriesValue item, _) => item.time,
         measureFn: (TimeSeriesValue item, _) => item.value,
@@ -236,7 +260,6 @@ class LineChart extends StatelessWidget {
     }
     return ret;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +273,7 @@ class LineChart extends StatelessWidget {
         animate: false,
         /*selectionModels: [
           SelectionModelConfig
-        ],*/
+        ],
         behaviors: [
           charts.LinePointHighlighter(
               symbolRenderer: CustomCircleSymbolRenderer(text: "hola")
@@ -292,7 +315,7 @@ class LineChart extends StatelessWidget {
               }
           )
         ],
-
+        */
         primaryMeasureAxis: new charts.NumericAxisSpec(
           showAxisLine: false,
           tickProviderSpec:
@@ -335,8 +358,6 @@ class LineChart extends StatelessWidget {
         );
   }
 
-
-
   static List _actualize(List values) {
     List ret =
         values.toList(); //el primer valor del array de firebase es el superior
@@ -370,29 +391,33 @@ class TimeSeriesValue {
 
   TimeSeriesValue(this.time, this.value);
 }
+
 class CustomCircleSymbolRenderer extends charts.CircleSymbolRenderer {
   String text;
 
-
-  CustomCircleSymbolRenderer(
-      {String text}
-      ) { this.text = text; }
+  CustomCircleSymbolRenderer({String text}) {
+    this.text = text;
+  }
 
   @override
-  void paint(charts.ChartCanvas canvas, Rectangle<num> bounds, {List<int> dashPattern, charts.Color fillColor, charts.Color strokeColor, double strokeWidthPx}) {
-    super.paint(canvas, bounds, dashPattern: dashPattern, fillColor: fillColor, strokeColor: strokeColor, strokeWidthPx: strokeWidthPx);
+  void paint(charts.ChartCanvas canvas, Rectangle<num> bounds,
+      {List<int> dashPattern,
+      charts.Color fillColor,
+      charts.Color strokeColor,
+      double strokeWidthPx}) {
+    super.paint(canvas, bounds,
+        dashPattern: dashPattern,
+        fillColor: fillColor,
+        strokeColor: strokeColor,
+        strokeWidthPx: strokeWidthPx);
     canvas.drawRect(
-
-        Rectangle(bounds.left - 50, bounds.top - 120, bounds.width + 100, bounds.height + 100),
-        fill: charts.Color.black
-    );
+        Rectangle(bounds.left - 50, bounds.top - 120, bounds.width + 100,
+            bounds.height + 100),
+        fill: charts.Color.black);
     var textStyle = style.TextStyle();
     textStyle.color = charts.Color.white;
     textStyle.fontSize = 15;
-    canvas.drawText(
-        TextElement(text, style: textStyle),
-        (bounds.left).round(),
-        (bounds.top - 28).round()
-    );
+    canvas.drawText(TextElement(text, style: textStyle), (bounds.left).round(),
+        (bounds.top - 28).round());
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:esgarden/Structure/DataElement.dart';
-import 'package:esgarden/Structure/Plot.dart';
+import 'package:esgarden/Models/DataElement.dart';
+import 'package:esgarden/Models/Plot.dart';
 import 'package:esgarden/UI/LineChart.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,8 +18,6 @@ class formChartAllData extends StatelessWidget {
 
   formChartAllData({Key key, @required this.PlotKey, this.color, this.dataType})
       : super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {

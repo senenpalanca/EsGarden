@@ -1,6 +1,5 @@
 import 'package:esgarden/Layout/Home.dart';
-import 'package:esgarden/Library/Globals.dart' as Globals;
-import 'package:esgarden/Structure/Orchard.dart';
+import 'package:esgarden/Models/Orchard.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class Panel extends StatelessWidget {
           title: Text("Main Board"),
           backgroundColor: Colors.green,
         ),
-        body:  FutureBuilder(
+        body: FutureBuilder(
           future: getDataFromFuture(),
           builder: (context, snapshot) {
             if (snapshot.data != null) {
@@ -34,14 +33,10 @@ class Panel extends StatelessWidget {
 
   HandleData() {
     orchards.clear();
-    _database
-        .reference()
-        .child('Gardens')
-        .onChildAdded
-        .listen(_onNewVegetable);
+    _database.reference().child('Gardens').onChildAdded.listen(_onNewVegetable);
   }
 
-  Widget formUI(BuildContext context){
+  Widget formUI(BuildContext context) {
     return Container(
       color: Colors.white,
       child: ListView(
@@ -132,7 +127,7 @@ class Panel extends StatelessWidget {
       ),
     ));
   }
-  /*
+/*
   DEPRECATED
   Widget _buildCatalogCard(BuildContext context) {
     return Container(
@@ -198,6 +193,5 @@ class Panel extends StatelessWidget {
     ));
   }
 */
-
 
 }

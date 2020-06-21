@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../UI/InputField.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -31,11 +31,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _formKey = GlobalKey<FormState>();
+
   // ignore: non_constant_identifier_names
+  final userContoller = TextEditingController();
+  final passContoller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    globals.isAdmin = true;
+    //globals.isAdmin = false;
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -46,53 +50,76 @@ class _MyHomePageState extends State<MyHomePage> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           color: Colors.green,
-          child: Center(
-              child: Container(
-                  width: 400,
-                  height: 400,
-                  child: ListView(
-                    children: <Widget>[
-                      Container(
-                        height: 400,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Image.asset(
-                                'images/icon.png',
-                                width: 300.0,
-                              ),
-                              InputField(Icon(Icons.email, color: Colors.white),
-                                  "EmailAddress", false),
-                              InputField(
-                                  Icon(Icons.person, color: Colors.white),
-                                  "Password",
-                                  true),
-                              Container(
-                                  width: 150,
-                                  height: 50,
-                                  child: RaisedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Panel()),
-                                        );
-                                      },
-                                      color: Colors.deepOrange,
-                                      textColor: Colors.white,
-                                      child: Text(
-                                        'login',
-                                        style: TextStyle(
-                                          fontSize: 30.0,
+          child: Form(
+            key: _formKey,
+            child: Center(
+                child: Container(
+                    width: 400,
+                    height: 400,
+                    child: ListView(
+                      children: <Widget>[
+                        Container(
+                          height: 400,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Image.asset(
+                                  'images/icon.png',
+                                  width: 300.0,
+                                ),
+                                InputField(
+                                    userContoller,
+                                    Icon(Icons.email, color: Colors.white),
+                                    "EmailAddress",
+                                    false),
+                                InputField(
+                                    passContoller,
+                                    Icon(Icons.person, color: Colors.white),
+                                    "Password",
+                                    true),
+                                Container(
+                                    width: 150,
+                                    height: 50,
+                                    child: RaisedButton(
+                                        onPressed: () {
+                                          _ValidateFields();
+                                          print(globals.isAdmin);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Panel()),
+                                          );
+                                        },
+                                        color: Colors.deepOrange,
+                                        textColor: Colors.white,
+                                        child: Text(
+                                          'login',
+                                          style: TextStyle(
+                                            fontSize: 30.0,
+                                          ),
                                         ),
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30.0)))))
-                            ]),
-                      ),
-                    ],
-                  )))), // This trailing comma makes auto-formatting nicer for build methods.
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(30.0)))))
+                              ]),
+                        ),
+                      ],
+                    ))),
+          )), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  _ValidateFields() {
+    String user = userContoller.text;
+    String pass = passContoller.text;
+    if (user == "profe") {
+      if (pass == "profe") {
+        globals.isAdmin = true;
+      } else {
+        globals.isAdmin = false;
+      }
+    } else {
+      globals.isAdmin = false;
+    }
   }
 }

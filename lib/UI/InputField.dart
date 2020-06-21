@@ -4,8 +4,9 @@ class InputField extends StatelessWidget {
   Icon fieldIcon;
   String hintText;
   bool obscureText;
+  final controller;
 
-  InputField(this.fieldIcon, this.hintText, this.obscureText);
+  InputField(this.controller, this.fieldIcon, this.hintText, this.obscureText);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,8 @@ class InputField extends StatelessWidget {
               ),
               Container(
                 width: 270,
-                child: TextField(
+                child: TextFormField(
+                  controller: controller,
                   obscureText: this.obscureText,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(

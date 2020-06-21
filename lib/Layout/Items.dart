@@ -1,13 +1,12 @@
 import 'dart:math';
 
-import 'package:esgarden/Layout/Calendar.dart';
 import 'package:esgarden/Layout/FormChartHistograms.dart';
 import 'package:esgarden/Layout/FormVegetable.dart';
 import 'package:esgarden/Layout/Home.dart';
-import 'package:esgarden/Layout/SelectionCallbackEx.dart';
-import 'package:esgarden/Layout/formChart.dart';
+import 'package:esgarden/Layout/Personalized/FormWind.dart';
 import 'package:esgarden/Library/Globals.dart' as globals;
-import 'package:esgarden/Structure/Plot.dart';
+import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Screens/Graphs/MainScreen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,6 @@ class MainPlotItems extends StatefulWidget {
 
   @override
   MainPlotItemsState createState() {
-
     final _database = FirebaseDatabase.instance.reference();
     final databaseReference = _database
         .child("Gardens")
@@ -164,19 +162,20 @@ class MainPlotItemsState extends State<MainPlotItems> {
       totalItems.add("Ambient Humidity");
       totalItems.add("Air Quality");
       totalItems.add("Ambient Temperature");
-      totalItems.add("Luminosity");
+      totalItems.add("Brightness");
+      totalItems.add("Wind");
     } else if (widget.PlotKey.key == "Nursery") {
       totalItems.clear();
-      totalItems.add("Soil Humidity");
-      totalItems.add("Soil Temperature");
-      totalItems.add("Luminosity");
-    } else if (widget.PlotKey.key == "SoilCompost") {
+      //totalItems.add("Soil Humidity");
+      //totalItems.add("Soil Temperature");
+      totalItems.add("Brightness");
+    } else if (widget.PlotKey.key == "Compost") {
       totalItems.clear();
       totalItems.add("Compost Humidity");
       totalItems.add("Air Quality");
       totalItems.add("Historic Data");
       totalItems.add("Compost Temperature");
-      totalItems.add("Luminosity");
+      totalItems.add("Brightness");
     } else {
       totalItems.clear();
       totalItems.add("Vegetable");
@@ -184,7 +183,7 @@ class MainPlotItemsState extends State<MainPlotItems> {
       totalItems.add("PH");
       totalItems.add("Soil Temperature");
       totalItems.add("Air Quality");
-      totalItems.add("Luminosity");
+      totalItems.add("Brightness");
       totalItems.add("ElectroValve");
       totalItems.add("Noise Detection");
     }
@@ -202,6 +201,14 @@ class MainPlotItemsState extends State<MainPlotItems> {
       ),
       home: Scaffold(
           appBar: AppBar(
+            leading: new IconButton(
+                icon: new Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                }),
             actions: <Widget>[
               PopupMenuButton<Choizable>(
                 icon: Icon(Icons.add),
@@ -265,16 +272,17 @@ class MainPlotItemsState extends State<MainPlotItems> {
                           ),
                         ),
                         PopupMenuItem(
+                          enabled: false, //Sig. version
                           value: 2,
                           child: FlatButton(
                             onPressed: () {
-                              Navigator.push(
+                              /* Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Calendar(
                                           PlotKey: widget.PlotKey,
                                         )),
-                              );
+                              );*/
                             },
                             child: Text(
                               "Calendar",
@@ -317,7 +325,7 @@ class MainPlotItemsState extends State<MainPlotItems> {
                 //print("LVItems:"+widget.LVItems.toString());
 
                 return ListView.builder(
-                  itemCount: widget.LVItems.length,
+                  itemCount: widget.LVItems == null ? 0 : widget.LVItems.length,
                   itemBuilder: (context, index) {
                     return widget.LVItems[index];
                   },
@@ -392,6 +400,7 @@ class MainPlotItemsState extends State<MainPlotItems> {
 
   Widget _createTab(String itemTitle) {
     var pad = const EdgeInsets.all(8);
+
     switch (itemTitle) {
       case "Compost Humidity":
         return Padding(
@@ -544,11 +553,16 @@ class MainPlotItemsState extends State<MainPlotItems> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>SelectionCallbackExample.withSampleData() /*formChart(
+                      builder: (context) => formChart(
+                          PlotKey: widget.PlotKey,
+                          color: Colors.blue,
+                          type: "ph")
+
+                      /* (context) =>SelectionCallbackExample.withSampleData() formChart(
                           PlotKey: widget.PlotKey,
                           color: Colors.blue,
                           type: "ph")*/
-                  ),
+                      ),
                 );
               },
               child: Card(
@@ -950,7 +964,7 @@ class MainPlotItemsState extends State<MainPlotItems> {
               ),
             ));
         break;
-      case "Luminosity":
+      case "Brightness":
         return Padding(
             padding: pad,
             //Card Upper Humidity
@@ -962,7 +976,7 @@ class MainPlotItemsState extends State<MainPlotItems> {
                       builder: (context) => formChart(
                           PlotKey: widget.PlotKey,
                           color: Colors.orange,
-                          type: "luminosity")),
+                          type: "brightness")),
                 );
               },
               child: Card(
@@ -986,7 +1000,52 @@ class MainPlotItemsState extends State<MainPlotItems> {
                             padding: const EdgeInsets.only(
                                 left: 8.0, top: 35, bottom: 35),
                             child: Text(
-                              "Luminosity",
+                              "Brightness",
+                              style: TextStyle(fontSize: 25.0),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ));
+        break;
+      case "Wind":
+        return Padding(
+            padding: pad,
+            //Card Upper Humidity
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => formWind(PlotKey: widget.PlotKey)),
+                );
+              },
+              child: Card(
+                elevation: 3.0,
+                shape: Border(
+                    right: BorderSide(
+                  color: Colors.yellowAccent,
+                  width: 15,
+                )),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.lightbulb_outline,
+                            size: 27,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, top: 35, bottom: 35),
+                            child: Text(
+                              "Wind",
                               style: TextStyle(fontSize: 25.0),
                             ),
                           )
@@ -1072,7 +1131,7 @@ class MainPlotItemsState extends State<MainPlotItems> {
                             padding: const EdgeInsets.only(
                                 left: 8.0, top: 35, bottom: 35),
                             child: Text(
-                              "Unknown",
+                              itemTitle,
                               style: TextStyle(fontSize: 25.0),
                             ),
                           )

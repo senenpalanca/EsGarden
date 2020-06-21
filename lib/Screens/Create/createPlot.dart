@@ -1,4 +1,3 @@
-import 'package:esgarden/Library/Globals.dart' as Globals;
 import 'package:esgarden/Models/Orchard.dart';
 import 'package:esgarden/Models/Plot.dart';
 import 'package:esgarden/Models/Vegetable.dart';
@@ -49,7 +48,7 @@ class FormPlotState extends State<FormPlot> {
   final vegetableContoller = TextEditingController();
   final _database = FirebaseDatabase.instance.reference();
   String vegetableValue = '0';
-
+  int newVegetable = 12;
   Future<String> getDataFromFuture() async {
     return new Future.delayed(Duration(milliseconds: 1000), () => "WaitFinish");
   }
@@ -177,7 +176,8 @@ class FormPlotState extends State<FormPlot> {
                                             '8',
                                             '9',
                                             '10',
-                                            '11'
+                                            '11',
+                                            "12"
                                           ].map((String value) {
                                             return new DropdownMenuItem<String>(
                                               value: value,
@@ -186,6 +186,7 @@ class FormPlotState extends State<FormPlot> {
                                           }).toList(),
                                           onChanged: (value) {
                                             setState(() {
+                                              print(value);
                                               vegetableValue = value;
                                             });
                                           },
@@ -213,6 +214,13 @@ class FormPlotState extends State<FormPlot> {
       case '0':
         return new Text(
           _getTextVegetable(value),
+          style: TextStyle(fontSize: 20.0, color: Colors.black54),
+          textAlign: TextAlign.center,
+        );
+        break;
+      case '12':
+        return new Text(
+          "Create...",
           style: TextStyle(fontSize: 20.0, color: Colors.black54),
           textAlign: TextAlign.center,
         );
@@ -291,18 +299,7 @@ class FormPlotState extends State<FormPlot> {
       return false;
   }
 
-  String _getDate(DateTime now) {
-    String day;
-    String month = Globals.months[now.month - 1];
-    ;
-    String year = now.year.toString();
-    if (now.day.toInt() < 10) {
-      day = '0' + now.day.toString();
-    } else
-      day = now.day.toString();
 
-    return (day + month + year);
-  }
 
   void createRecord() {
     final databaseReference = _database.child("Gardens");

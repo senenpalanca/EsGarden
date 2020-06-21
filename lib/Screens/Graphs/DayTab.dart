@@ -78,7 +78,7 @@ class DayTabState extends State<DayTab> {
                 child: Container(
                   width: 300,
                   child: Material(
-                    color: colors[0],
+                    color: doubleData() ? colors[0] : widget.color,
                     elevation: 4.0,
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     child: Padding(

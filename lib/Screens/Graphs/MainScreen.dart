@@ -108,12 +108,12 @@ class formChartState extends State<formChart> {
   String _getDate(DateTime now) {
     String day;
     String month = months[now.month - 1];
+
     String year = now.year.toString();
     if (now.day.toInt() < 10) {
       day = '0' + now.day.toString();
     } else
       day = now.day.toString();
-
     return (day + month + year);
   }
 

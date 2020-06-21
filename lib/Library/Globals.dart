@@ -11,18 +11,18 @@ int gardensNo = 0;
 List<Orchard> orchards = new List();
 List<CatalogItem> catalog = new List();
 List months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec"
+  " Jan ",
+  " Feb ",
+  " Mar ",
+  " Apr ",
+  " May ",
+  " Jun ",
+  " Jul ",
+  " Aug ",
+  " Sep ",
+  " Oct ",
+  " Nov ",
+  " Dec "
 ];
 
 const Map<String, String> CATALOG_TYPES = const {
@@ -94,7 +94,7 @@ const Map<String, List<String>> ITEMS_PLOTS = const {
     "Brightness",
     "Wind"
   ],
-  "Nursery": ["Brightness"],
+  "Nursery": ["Brightness", "Air Quality", "Temperature", "Humidity"],
   "Compost": [
     "Compost Humidity",
     "Air Quality",
@@ -105,10 +105,8 @@ const Map<String, List<String>> ITEMS_PLOTS = const {
   "Plot": ["Humidity", "Temperature"],
 };
 const List<String> typeTrends = [
-  "Nothing",
-  "Average",
-  "Polynomic",
-  "Logaritmic",
+  "RAW Data",
+  "Polynomic Data"
 ];
 
 List<dynamic> colors = [

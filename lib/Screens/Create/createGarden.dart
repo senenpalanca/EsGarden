@@ -2,7 +2,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../Library/Globals.dart' as Globals;
 import '../../UI/PersonalizedField.dart';
 
 class FormGarden extends StatefulWidget {
@@ -190,16 +189,5 @@ class FormGardenState extends State<FormGarden> {
     });
   }
 
-  String _getDate(DateTime now) {
-    String day;
-    String month = Globals.months[now.month - 1];
-    ;
-    String year = now.year.toString();
-    if (now.day.toInt() < 10) {
-      day = '0' + now.day.toString();
-    } else
-      day = now.day.toString();
 
-    return (day + month + year);
-  }
 }

@@ -62,6 +62,7 @@ class PlotsOfGarden extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("build_plots");
     _handleData();
 
     return Scaffold(
@@ -72,48 +73,48 @@ class PlotsOfGarden extends StatelessWidget {
                 onSelected: _manageMenuOptions,
                 enabled: true,
                 itemBuilder: (BuildContext context) => [
-                      PopupMenuItem(
-                        enabled: false,
-                        value: 1,
-                        child: Text(
-                          "Options",
-                          style: TextStyle(color: Colors.green, fontSize: 16.0),
-                        ),
+                  PopupMenuItem(
+                    enabled: false,
+                    value: 1,
+                    child: Text(
+                      "Options",
+                      style: TextStyle(color: Colors.green, fontSize: 16.0),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    enabled: Globals.isAdmin,
+                    child: FlatButton(
+                      onPressed: () {
+                        _showDeleteDialog(context);
+                      },
+                      child: Text(
+                        "Delete Garden",
+                        style: TextStyle(
+                            color: Colors.black45, fontSize: 18.0),
                       ),
-                      PopupMenuItem(
-                        value: 2,
-                        enabled: Globals.isAdmin,
-                        child: FlatButton(
-                          onPressed: () {
-                            _showDeleteDialog(context);
-                          },
-                          child: Text(
-                            "Delete Garden",
-                            style: TextStyle(
-                                color: Colors.black45, fontSize: 18.0),
-                          ),
-                        ),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FormPlot(
+                                OrchardKey: OrchardKey,
+                              )),
+                        );
+                      },
+                      child: Text(
+                        "Create Plot",
+                        style: TextStyle(
+                            color: Colors.black45, fontSize: 18.0),
                       ),
-                      PopupMenuItem(
-                        value: 2,
-                        child: FlatButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FormPlot(
-                                        OrchardKey: OrchardKey,
-                                      )),
-                            );
-                          },
-                          child: Text(
-                            "Create Plot",
-                            style: TextStyle(
-                                color: Colors.black45, fontSize: 18.0),
-                          ),
-                        ),
-                      ),
-                    ]),
+                    ),
+                  ),
+                ]),
 
             /*IconButton(
               icon: Icon(Icons.add),
@@ -137,7 +138,7 @@ class PlotsOfGarden extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   padding: const EdgeInsets.all(10.0),
                   children:
-                      plots.map<Widget>((data) => _buildItem(data)).toList(),
+                  plots.map<Widget>((data) => _buildItem(data)).toList(),
                 ),
               );
             }

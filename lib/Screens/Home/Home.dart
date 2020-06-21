@@ -6,6 +6,8 @@ import 'package:esgarden/UI/CardGarden.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+bool firstTime = true;
+
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
   final FirebaseDatabase _database = FirebaseDatabase.instance;
@@ -33,9 +35,11 @@ class Home extends StatelessWidget {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     _handleData();
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Home"),
@@ -59,9 +63,11 @@ class Home extends StatelessWidget {
                         .toList(),
                   ));
             }
-            return Center(child: CircularProgressIndicator());
+            return Container(color: Colors.green,
+                child: Center(child: CircularProgressIndicator()));
           },
         ));
+
   }
 
   //Teacher Funcs

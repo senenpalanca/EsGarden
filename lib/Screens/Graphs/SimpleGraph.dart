@@ -9,8 +9,9 @@ class SimpleGraph extends StatefulWidget {
   List<DataElement> data;
   Color color;
   String type;
+  bool showTitle;
 
-  SimpleGraph({this.data, this.color, this.type});
+  SimpleGraph({this.data, this.color, this.type, this.showTitle = false});
 
   @override
   _SimpleGraphState createState() => _SimpleGraphState();
@@ -19,9 +20,7 @@ class SimpleGraph extends StatefulWidget {
 class _SimpleGraphState extends State<SimpleGraph> {
   ZoomPanBehavior zooming;
   SfCartesianChart chart;
-  String ItemTypeTrend;
-
-  Trendline selectedTrend;
+  String SeriesType;
 
   List<dynamic> colors;
 
@@ -39,6 +38,11 @@ class _SimpleGraphState extends State<SimpleGraph> {
         selectionRectBorderWidth: 1,
         selectionRectColor: Colors.grey);
     chart = SfCartesianChart(
+        title: widget.showTitle
+            ? ChartTitle(
+                text: globals.CATALOG_NAMES[globals.CATALOG_TYPES[widget.type]],
+                textStyle: ChartTextStyle(fontSize: 15))
+            : null,
         zoomPanBehavior: zooming,
         primaryXAxis: DateTimeAxis(
           //majorGridLines: MajorG,
@@ -60,7 +64,7 @@ class _SimpleGraphState extends State<SimpleGraph> {
                 : LegendPosition.right),
         tooltipBehavior: TooltipBehavior(enable: true),
         series: _createSeries());
-    ItemTypeTrend = typeTrends[0];
+
 
     return Container(
       //height: 300,
@@ -89,52 +93,92 @@ class _SimpleGraphState extends State<SimpleGraph> {
     );
   }
 
-  List<AreaSeries<DataElement, DateTime>> _createSeries() {
-    List<AreaSeries<DataElement, DateTime>> returnList = new List();
+  /*START Series*/
+  List<XyDataSeries<DataElement, DateTime>> _createSeries() {
+    List<XyDataSeries<DataElement, DateTime>> returnList = new List();
     int noOfValues = VALUE_RELATION[widget.type] == null
         ? 1
         : VALUE_RELATION[widget.type].length;
 
-    bool _checkSerieNotNull(int i) {
+    bool _checkThereIsSeries() {
+      bool ret = true;
       widget.data.forEach((DataElement e) {
-        if (e.Values[[double.parse(CATALOG_TYPES[widget.type])][0]] == null) {
+        if (e.Values[double.parse(CATALOG_TYPES[widget.type])] == null) {
+          ret = false;
+        }
+      });
+      return ret;
+    }
+
+    bool _checkSerieNotNull(int i) {
+      bool ret = true;
+      widget.data.forEach((DataElement e) {
+        if (e.Values.length < noOfValues) {
           return false;
         }
       });
-      return true;
+      return ret;
+
     }
 
-    for (var i = 0; i < noOfValues; i++) {
-      if (_checkSerieNotNull(i)) {
-        returnList.add(
-          AreaSeries<DataElement, DateTime>(
-              /*trendlines: ItemTypeTrend == typeTrends[0] ? null : <Trendline>[
-                Trendline(
-                    type: _selectTypeTrend(),
-                    color: Colors.blue)
-              ],*/
-              name: VALUE_RELATION[widget.type] == null
-                  ? CATALOG_NAMES[CATALOG_TYPES[widget.type]]
-                  : VALUE_RELATION[widget.type][i],
-              borderColor: noOfValues == 1 ? widget.color : colors[i],
-              borderWidth: 3,
-              color: noOfValues == 1
-                  ? widget.color.withOpacity(0.9)
-                  : colors[i].withOpacity(0.9),
-              dataSource: widget.data,
-              markerSettings: MarkerSettings(
-                isVisible: widget.data.length < 23 ? true : false,
-              ),
-              xValueMapper: (DataElement elm, _) =>
-                  elm.timestamp.subtract(new Duration(hours: 1)),
-              yValueMapper: (DataElement elm, _) =>
-                  elm.Values[double.parse(CATALOG_TYPES[widget.type])][i]),
-        );
+    if (_checkThereIsSeries()) {
+      for (var i = 0; i < noOfValues; i++) {
+        if (_checkSerieNotNull(i)) {
+          returnList.add(
+              _createOneSerie(i, noOfValues)
+          );
+        }
       }
     }
 
     return returnList;
   }
+
+  XyDataSeries<DataElement, DateTime> _createOneSerie(int i, int noOfValues) {
+    switch (SeriesType) {
+      case "RAW Data":
+        return AreaSeries<DataElement, DateTime>(
+            name: VALUE_RELATION[widget.type] == null
+                ? CATALOG_NAMES[CATALOG_TYPES[widget.type]]
+                : VALUE_RELATION[widget.type][i],
+            borderColor: noOfValues == 1 ? widget.color : colors[i],
+            borderWidth: 3,
+            color: noOfValues == 1
+                ? widget.color.withOpacity(0.9)
+                : colors[i].withOpacity(0.9),
+            dataSource: widget.data,
+            markerSettings: MarkerSettings(
+              isVisible: widget.data.length < 23 ? true : false,
+            ),
+            xValueMapper: (DataElement elm, _) =>
+                elm.timestamp.subtract(new Duration(hours: 1)),
+            yValueMapper: (DataElement elm, _) =>
+            elm.Values[double.parse(CATALOG_TYPES[widget.type])][i]);
+        break;
+      default:
+        return SplineAreaSeries<DataElement, DateTime>(
+            name: VALUE_RELATION[widget.type] == null
+                ? CATALOG_NAMES[CATALOG_TYPES[widget.type]]
+                : VALUE_RELATION[widget.type][i],
+            borderColor: noOfValues == 1 ? widget.color : colors[i],
+            borderWidth: 3,
+            color: noOfValues == 1
+                ? widget.color.withOpacity(0.9)
+                : colors[i].withOpacity(0.9),
+            dataSource: widget.data,
+            markerSettings: MarkerSettings(
+              isVisible: widget.data.length < 23 ? true : false,
+            ),
+            xValueMapper: (DataElement elm, _) =>
+                elm.timestamp.subtract(new Duration(hours: 1)),
+            yValueMapper: (DataElement elm, _) =>
+            elm.Values[double.parse(CATALOG_TYPES[widget.type])][i]
+        );
+        break;
+    }
+  }
+
+  /*END Series*/
 
   _showSettingsDialog() {
     showDialog(
@@ -164,7 +208,7 @@ class _SimpleGraphState extends State<SimpleGraph> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: OptionChips(
                           typeSeries: typeTrends,
-                          onSelectionChanged: _createTrendLine,
+                          onSelectionChanged: _changeSeriesType,
                         ),
                       ),
                     ],
@@ -182,28 +226,13 @@ class _SimpleGraphState extends State<SimpleGraph> {
         });
   }
 
-  _selectTypeTrend() {
-    //Convierte selección a ajuste de widget
-    switch (ItemTypeTrend) {
-      case "RAW Data":
-        return TrendlineType.movingAverage;
-        break;
-      case "Smooth Data":
-        return TrendlineType.polynomial;
-        break;
-      case "Logarithmic":
-        return TrendlineType.logarithmic;
-        break;
-      case "Nothing":
-        return null;
-        break;
-    }
-  }
 
-  _createTrendLine(String chipCaption) {
+  _changeSeriesType(String chipCaption) {
     setState(() {
       print(chipCaption);
-      ItemTypeTrend = chipCaption;
+      SeriesType = chipCaption;
     });
   }
+
+
 }

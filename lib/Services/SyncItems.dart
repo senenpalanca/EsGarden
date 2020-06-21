@@ -1,8 +1,8 @@
-import 'package:esgarden/Layout/FormChartHistograms.dart';
 import 'package:esgarden/Layout/FormVegetable.dart';
-import 'package:esgarden/Layout/Personalized/FormWind.dart';
 import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Screens/Graphs/Historic/HistoricScreen.dart';
 import 'package:esgarden/Screens/Graphs/MainScreen.dart';
+import 'package:esgarden/Screens/Graphs/Wind/FormWind.dart';
 import 'package:esgarden/UI/CardItem.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -178,7 +178,7 @@ class SyncItemsService {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => formChartHistograms(PlotKey: PlotKey)),
+                  builder: (context) => HistoricScreen(PlotKey: PlotKey)),
             );
           },
         );

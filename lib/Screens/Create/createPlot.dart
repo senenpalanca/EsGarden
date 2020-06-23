@@ -45,10 +45,24 @@ class FormPlotState extends State<FormPlot> {
   List<String> vegetableNames;
   final nameContoller = TextEditingController();
   final imgContoller = TextEditingController();
-  final vegetableContoller = TextEditingController();
+
   final _database = FirebaseDatabase.instance.reference();
   String vegetableValue = '0';
-  int newVegetable = 12;
+  List<String> idVegetables = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    "12"
+  ];
   Future<String> getDataFromFuture() async {
     return new Future.delayed(Duration(milliseconds: 1000), () => "WaitFinish");
   }
@@ -80,7 +94,7 @@ class FormPlotState extends State<FormPlot> {
   void dispose() {
     nameContoller.dispose();
     imgContoller.dispose();
-    vegetableContoller.dispose();
+
     super.dispose();
   }
 
@@ -105,9 +119,6 @@ class FormPlotState extends State<FormPlot> {
                     ),
                     PersonalizedField(nameContoller, "Name of the Plot", false,
                         Icon(Icons.note_add, color: Colors.white)),
-                    //PersonalizedField2(cityContoller,"City of the Plot",false,Icon(Icons.location_city, color: Colors.white)),
-                    //PersonalizedField2(vegetableContoller,"Vegetables to plant",false,Icon(Icons.assignment, color: Colors.white)),
-                    //PersonalizedField2(imgContoller,"Image URL Logo",false,Icon(Icons.image, color: Colors.white)),
                     Container(
                       width: 310,
                       child: Material(
@@ -129,27 +140,7 @@ class FormPlotState extends State<FormPlot> {
                                   color: Colors.white,
                                 ),
                               ),
-                              /*Container(
-                                width: 170,
-                                child: TextField(
 
-
-                                  //obscureText: this.obscureText,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(10.0), bottomRight: Radius.circular(10.0))),
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    //hintText: this.hintText,
-
-
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.black,
-
-                                  ),
-                                ),
-                              ),*/
                               Material(
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(10.0),
@@ -164,21 +155,8 @@ class FormPlotState extends State<FormPlot> {
                                             const EdgeInsets.only(left: 10.0),
                                         child: DropdownButton<String>(
                                           value: vegetableValue,
-                                          items: <String>[
-                                            '0',
-                                            '1',
-                                            '2',
-                                            '3',
-                                            '4',
-                                            '5',
-                                            '6',
-                                            '7',
-                                            '8',
-                                            '9',
-                                            '10',
-                                            '11',
-                                            "12"
-                                          ].map((String value) {
+                                          items:
+                                              idVegetables.map((String value) {
                                             return new DropdownMenuItem<String>(
                                               value: value,
                                               child: _createDropDownItem(value),
@@ -218,13 +196,7 @@ class FormPlotState extends State<FormPlot> {
           textAlign: TextAlign.center,
         );
         break;
-      case '12':
-        return new Text(
-          "Create...",
-          style: TextStyle(fontSize: 20.0, color: Colors.black54),
-          textAlign: TextAlign.center,
-        );
-        break;
+
       default:
         return new Text(
           _getTextVegetable(value),
@@ -233,11 +205,7 @@ class FormPlotState extends State<FormPlot> {
         );
         break;
     }
-    return new Text(
-      _getTextVegetable(value),
-      style: TextStyle(fontSize: 20.0, color: Colors.black54),
-      textAlign: TextAlign.center,
-    );
+
   }
 
   String _getTextVegetable(String num) {
@@ -283,13 +251,12 @@ class FormPlotState extends State<FormPlot> {
 
   bool _ValidateFields() {
     String name = nameContoller.text;
-    String vegetable = vegetableValue;
-    String image = imgContoller.text;
 
     if (widget.OrchardKey.plots[name] == null) {
-      if (name.length > 0 && vegetableValue != "0") {
+      if (name.length > 0 && vegetableValue != "0" &&
+          vegetableValue != idVegetables.length - 1) {
         print("Fields validated");
-        createRecord();
+        _createRecord();
         return true;
       } else {
         print("Fields not validated");
@@ -300,8 +267,7 @@ class FormPlotState extends State<FormPlot> {
   }
 
 
-
-  void createRecord() {
+  void _createRecord() {
     final databaseReference = _database.child("Gardens");
     final databaseOrchard = databaseReference.child(widget.OrchardKey.key);
     final databasePlot = databaseOrchard.child("sensorData");
@@ -323,4 +289,6 @@ class FormPlotState extends State<FormPlot> {
       "VegetableIndex": vegetableValue,
     });
   }
+
+
 }

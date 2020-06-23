@@ -45,6 +45,9 @@ class _SimpleGraphState extends State<SimpleGraph> {
             : null,
         zoomPanBehavior: zooming,
         primaryXAxis: DateTimeAxis(
+          maximum: widget.data.length < 5 && widget.data.length > 0
+              ? widget.data[0].timestamp.add(Duration(hours: 20))
+              : null,
           //majorGridLines: MajorG,
           interval: 2,
           //dateFormat: ,

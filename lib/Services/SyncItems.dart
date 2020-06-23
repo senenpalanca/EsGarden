@@ -1,8 +1,8 @@
-import 'package:esgarden/Layout/FormVegetable.dart';
 import 'package:esgarden/Models/Plot.dart';
 import 'package:esgarden/Screens/Graphs/Historic/HistoricScreen.dart';
 import 'package:esgarden/Screens/Graphs/MainScreen.dart';
-import 'package:esgarden/Screens/Graphs/Wind/FormWind.dart';
+import 'package:esgarden/Screens/Items/FormVegetable.dart';
+import 'package:esgarden/Screens/Items/FormWind.dart';
 import 'package:esgarden/UI/CardItem.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';

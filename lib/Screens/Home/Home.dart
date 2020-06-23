@@ -4,42 +4,50 @@ import 'package:esgarden/Screens/Create/createGarden.dart';
 import 'package:esgarden/Services/Auth.dart';
 import 'package:esgarden/UI/CardGarden.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
-bool firstTime = true;
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
 
-class Home extends StatelessWidget {
+class _HomeState extends State<Home> {
+  List<Orchard> gardens = List();
   final AuthService _auth = AuthService();
-  final FirebaseDatabase _database = FirebaseDatabase.instance;
-  List<Orchard> gardens = new List();
   bool isTeacher = false;
+  DatabaseReference gardensref;
+
+  @override
+  void initState() {
+    super.initState();
+    final FirebaseDatabase _database = FirebaseDatabase.instance;
+    gardensref = _database.reference().child('Gardens');
+    gardensref.reference().onChildAdded.listen(_onChildAdded);
+    gardensref.reference().onChildChanged.listen(_onChildChanged);
+  }
 
   Future<String> getDataFromFuture() async {
     isTeacher = await _auth.isTeacher();
-    return new Future.delayed(Duration(milliseconds: 2000), () => "WaitFinish");
+
   }
 
-  _handleData() {
-    DatabaseReference gardensref = _database.reference().child('Gardens');
-    gardensref.reference().onChildAdded.listen(_onNewGarden);
+  void _onChildAdded(Event event) {
+    setState(() {
+      gardens.add(Orchard.fromSnapshot(event.snapshot));
+    });
   }
 
-  _onNewGarden(Event event) {
-    Orchard n = Orchard.fromSnapshot(event.snapshot);
-    gardens.add(n);
+  void _onChildChanged(Event event) {
+    var old = gardens.singleWhere((entry) {
+      return entry.key == event.snapshot.key;
+    });
+    setState(() {
+      gardens[gardens.indexOf(old)] = Orchard.fromSnapshot(event.snapshot);
+    });
   }
-
-  CardGarden _buildItem(Orchard target) {
-    if (target != null) {
-      return CardGarden(target);
-    }
-  }
-
-
   @override
   Widget build(BuildContext context) {
-    _handleData();
-
     return Scaffold(
         appBar: AppBar(
           title: Text("Home"),
@@ -49,27 +57,20 @@ class Home extends StatelessWidget {
           backgroundColor: Colors.green,
         ),
         floatingActionButton: FloatingButton(context),
-        body: FutureBuilder(
-          future: getDataFromFuture(),
-          builder: (context, snapshot) {
-            if (snapshot.data != null) {
-              return Container(
-                  color: Colors.white,
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    padding: const EdgeInsets.all(10.0),
-                    children: gardens
-                        .map<Widget>((data) => _buildItem(data))
-                        .toList(),
-                  ));
-            }
-            return Container(color: Colors.green,
-                child: Center(child: CircularProgressIndicator()));
-          },
-        ));
-
+        body: Column(
+          children: <Widget>[
+            Flexible(
+              child: FirebaseAnimatedList(
+                query: gardensref,
+                itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                    Animation<double> animation, int index) {
+                  return new CardGarden(gardens[index]);
+                },
+              ),
+            ),
+          ],
+        ));;
   }
-
   //Teacher Funcs
   Widget LogOutButton() {
     //if(globals.isAdmin){
@@ -108,4 +109,5 @@ class Home extends StatelessWidget {
     }
   }
 //END Teacher Funcs
+
 }

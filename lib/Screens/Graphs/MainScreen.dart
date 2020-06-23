@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../Library/Globals.dart';
-import '../../UI/NotificationList.dart';
+import 'NotificationTab.dart';
 
 class formChart extends StatefulWidget {
   Plot PlotKey;
@@ -136,19 +136,26 @@ class formChartState extends State<formChart> {
     Map<dynamic, dynamic> dias = new Map();
     if (DataElements.length > 0) {
       String firstDate = _getDate(DataElements[0].timestamp);
-      dias[firstDate] = new List<DataElement>();
+      //Inicializar días
+      dias = _createDias(
+          DataElements[0].timestamp.add(new Duration(hours: 1)),
+          DataElements[DataElements.length - 1]
+              .timestamp
+              .add(new Duration(hours: 1)));
+      //dias[firstDate] = new List<DataElement>();
       for (var index = 0; index < DataElements.length; index++) {
         String date =
             _getDate(DataElements[index].timestamp.add(new Duration(hours: 1)));
         if (date == firstDate) {
           dias[date].add(DataElements[index]);
         } else {
-          dias[date] = new List<DataElement>();
+          //dias[date] = new List<DataElement>();
           dias[date].add(DataElements[index]);
           firstDate = date;
         }
       }
     }
+
     ////END Prepare Data
 
     List<Widget> fin = [];
@@ -165,5 +172,26 @@ class formChartState extends State<formChart> {
     }
     fin.add(NotificationList(widget.PlotKey.alerts["T1"]));
     return fin;
+  }
+
+  Map _createDias(DateTime timestamp, DateTime timestamp2) {
+    Map<dynamic, dynamic> dias = new Map();
+    DateTime actual = timestamp;
+    DateTime primerDatoDelUltimoDia = timestamp2.subtract(Duration(
+        hours: timestamp2.hour,
+        minutes: timestamp2.minute,
+        seconds: timestamp2.second - 1));
+
+    while (primerDatoDelUltimoDia.isAfter(actual)) {
+      print("buclewhile");
+      dias[_getDate(actual)] = new List<DataElement>();
+      print("buclewhile2");
+      actual = actual.add(Duration(days: 1));
+      print("buclewhile3");
+      print(actual);
+    }
+    dias[_getDate(actual)] = new List<DataElement>();
+
+    return dias;
   }
 }

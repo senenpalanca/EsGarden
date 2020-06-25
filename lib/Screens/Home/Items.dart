@@ -153,7 +153,10 @@ class _ItemsState extends State<Items> {
 
   List<Widget> _getUnselectedElements() {
     List<String> visibleItems = widget._syncItemsService.GetStringItems();
-    List<String> allItems = globals.ITEMS_PLOTS[widget.PlotKey.Name].toList();
+    print(widget.PlotKey.key);
+    List<String> allItems = globals.ITEMS_PLOTS[widget.PlotKey.key] != Null
+        ? globals.ITEMS_PLOTS[widget.PlotKey.key].toList()
+        : [];
     List<String> invisibleItems = [];
     for (var i = 0; i < allItems.length; i++) {
       if (!visibleItems.contains(allItems[i])) {

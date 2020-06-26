@@ -2,6 +2,7 @@ import 'package:esgarden/Library/Globals.dart' as globals;
 import 'package:esgarden/Models/Plot.dart';
 import 'package:esgarden/Services/SyncItems.dart';
 import 'package:esgarden/UI/CardItem.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 List<CardItem> listItems = [];
@@ -21,6 +22,59 @@ class LoadItems extends StatelessWidget {
   Widget build(BuildContext context) {
     Service.Start(PlotKey, context);
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Items"),
+        leading: new IconButton(
+            icon: new Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            }),
+        actions: <Widget>[
+          PopupMenuButton<int>(
+              enabled: globals.isAdmin,
+              itemBuilder: (BuildContext context) => [
+                    PopupMenuItem(
+                      enabled: false,
+                      value: 1,
+                      child: Text(
+                        "Options",
+                        style: TextStyle(color: Colors.green, fontSize: 16.0),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 2,
+                      enabled: globals.isAdmin,
+                      child: FlatButton(
+                        onPressed: () {
+                          _showChangeNameDialog(context);
+                        },
+                        child: Text(
+                          "Edit Name",
+                          style:
+                              TextStyle(color: Colors.black45, fontSize: 18.0),
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      enabled: globals.isAdmin,
+                      value: 2,
+                      child: FlatButton(
+                        onPressed: () {
+                          _showDeleteDialog(context);
+                        },
+                        child: Text(
+                          "Delete Plot",
+                          style:
+                              TextStyle(color: Colors.black45, fontSize: 18.0),
+                        ),
+                      ),
+                    ),
+                  ]),
+        ],
+      ),
       body: FutureBuilder(
           future: getDataFromFuture(),
           builder: (context, snapshot) {
@@ -33,6 +87,92 @@ class LoadItems extends StatelessWidget {
           }),
     );
   }
+
+  void _showDeleteDialog(BuildContext context) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Delete Plot " + PlotKey.Name),
+          content: new Text("Are you sure you want to delete this plot?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Yes"),
+              onPressed: () {
+                final _database = FirebaseDatabase.instance.reference();
+                final databaseReference = _database
+                    .child("Gardens")
+                    .child(PlotKey.parent)
+                    .child("sensorData")
+                    .child(PlotKey.key)
+                    .remove();
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                //Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showChangeNameDialog(BuildContext context) {
+    String plotName = '';
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Text('Enter current team'),
+          content: new Row(
+            children: <Widget>[
+              new Expanded(
+                  child: new TextField(
+                    autofocus: true,
+                    decoration: new InputDecoration(
+                        labelText: 'Plot Name',
+                        hintText: 'eg. Tomatoes from UPV'),
+                    onChanged: (value) {
+                      plotName = value;
+                    },
+                  ))
+            ],
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                if (plotName.length > 0) {
+                  final _database = FirebaseDatabase.instance.reference();
+                  final databaseReference = _database
+                      .child("Gardens")
+                      .child(PlotKey.parent)
+                      .child("sensorData")
+                      .child(PlotKey.key)
+                      .child("Name")
+                      .set(plotName);
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
 
 class Items extends StatefulWidget {
@@ -53,9 +193,7 @@ class _ItemsState extends State<Items> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Items"),
-      ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: OpenItemsList,
         child: Icon(Icons.add),

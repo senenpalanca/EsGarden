@@ -40,7 +40,7 @@ class LoadItems extends StatelessWidget {
                       enabled: false,
                       value: 1,
                       child: Text(
-                        "Options",
+                        "Options ",
                         style: TextStyle(color: Colors.green, fontSize: 16.0),
                       ),
                     ),

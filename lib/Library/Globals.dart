@@ -102,14 +102,14 @@ const Map<String, List<String>> ITEMS_PLOTS = const {
     "Compost Temperature",
     "Brightness"
   ],
-  "plot 1": ["Humidity", "Temperature"],
-  "plot 2": ["Humidity", "Temperature"],
-  "plot 3": ["Humidity", "Temperature"],
-  "plot 4": ["Humidity", "Temperature"],
-  "plot 5": ["Humidity", "Temperature"],
-  "plot 6": ["Humidity", "Temperature"],
-  "plot 7": ["Humidity", "Temperature"],
-  "plot 8": ["Humidity", "Temperature"],
+  "plot 1": ["Vegetable", "Humidity", "Temperature"],
+  "plot 2": ["Vegetable", "Humidity", "Temperature"],
+  "plot 3": ["Vegetable", "Humidity", "Temperature"],
+  "plot 4": ["Vegetable", "Humidity", "Temperature"],
+  "plot 5": ["Vegetable", "Humidity", "Temperature"],
+  "plot 6": ["Vegetable", "Humidity", "Temperature"],
+  "plot 7": ["Vegetable", "Humidity", "Temperature"],
+  "plot 8": ["Vegetable", "Humidity", "Temperature"],
 };
 const List<String> typeTrends = [
   "RAW Data",

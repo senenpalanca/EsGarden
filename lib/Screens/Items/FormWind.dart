@@ -127,13 +127,21 @@ class formWind extends StatelessWidget {
   int _getLastValue(List data, bool first) {
     int highest = 0;
     int pos = 0;
+    //if(data.isEmpty)
     List<DataElement> DataElements = data;
     Map<int, List<TimeSeriesValue>> dataLists = {};
     DataElements.removeWhere((value) => value == null);
     var typeNo = int.parse(CATALOG_TYPES["wind"]);
-    List value = DataElements[DataElements.length - 1].Values[typeNo];
 
-    return value[1];
+    DataElement element = DataElements[DataElements.length - 1];
+    if (element != null) {
+      List value = element.Values[typeNo];
+      print(value);
+      if (value != null) {
+        return value[1];
+      }
+    }
+    return 0;
   }
 
   Future<String> getDataFromFuture() async {

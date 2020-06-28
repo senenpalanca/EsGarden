@@ -58,9 +58,9 @@ class formChartState extends State<formChart> {
   @override
   Widget build(BuildContext context) {
     HandleData();
-    print("************* DEBUG **************");
-    print(" CATALOG_TYPE >  " + CATALOG_TYPES[widget.type]);
-    print(" CATALOG_NAME >  " + CATALOG_NAMES[CATALOG_TYPES[widget.type]]);
+    // print("************* DEBUG **************");
+    // print(" CATALOG_TYPE >  " + CATALOG_TYPES[widget.type]);
+    // print(" CATALOG_NAME >  " + CATALOG_NAMES[CATALOG_TYPES[widget.type]]);
 
     return Scaffold(
       appBar: AppBar(
@@ -108,7 +108,6 @@ class formChartState extends State<formChart> {
   String _getDate(DateTime now) {
     String day;
     String month = months[now.month - 1];
-
     String year = now.year.toString();
     if (now.day.toInt() < 10) {
       day = '0' + now.day.toString();
@@ -125,7 +124,6 @@ class formChartState extends State<formChart> {
   }
 
   List<Widget> _createTabs(context) {
-    //*Prepare Data
     List<DataElement> DataElements = this.data.map((DataElement item) {
       int p = int.parse(CATALOG_TYPES[widget.type.toLowerCase()]);
       if (item.Types.contains(p)) {
@@ -142,7 +140,7 @@ class formChartState extends State<formChart> {
           DataElements[DataElements.length - 1]
               .timestamp
               .add(new Duration(hours: 1)));
-      //dias[firstDate] = new List<DataElement>();
+
       for (var index = 0; index < DataElements.length; index++) {
         String date =
             _getDate(DataElements[index].timestamp.add(new Duration(hours: 1)));
@@ -181,14 +179,9 @@ class formChartState extends State<formChart> {
         hours: timestamp2.hour,
         minutes: timestamp2.minute,
         seconds: timestamp2.second - 1));
-
     while (primerDatoDelUltimoDia.isAfter(actual)) {
-      print("buclewhile");
       dias[_getDate(actual)] = new List<DataElement>();
-      print("buclewhile2");
       actual = actual.add(Duration(days: 1));
-      print("buclewhile3");
-      print(actual);
     }
     dias[_getDate(actual)] = new List<DataElement>();
 

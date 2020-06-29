@@ -1,12 +1,12 @@
 import 'package:esgarden/Models/DataElement.dart';
 import 'package:esgarden/Models/Plot.dart';
-import 'package:esgarden/Screens/Graphs/DayTab.dart';
+import 'package:esgarden/Screens/Graphs/Days/DayTab.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../Library/Globals.dart';
-import 'NotificationTab.dart';
+import '../../../Library/Globals.dart';
+import 'AlertTab.dart';
 
 class formChart extends StatefulWidget {
   Plot PlotKey;
@@ -168,11 +168,15 @@ class formChartState extends State<formChart> {
         dayText: dias.keys.toList()[i],
       ));
     }
-    fin.add(NotificationList(widget.PlotKey.alerts["T1"]));
+    fin.add(AlertsTab(
+      type: widget.type,
+      PlotKey: widget.PlotKey,
+    ));
     return fin;
   }
 
   Map _createDias(DateTime timestamp, DateTime timestamp2) {
+    //Función que añade los días entre medias al MAP
     Map<dynamic, dynamic> dias = new Map();
     DateTime actual = timestamp;
     DateTime primerDatoDelUltimoDia = timestamp2.subtract(Duration(

@@ -9,6 +9,10 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="esgarden"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDfgXQiD-wDuJ4c6d6y5HZwLlA5e3N9Fcc" />
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

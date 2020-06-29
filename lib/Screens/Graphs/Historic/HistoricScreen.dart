@@ -1,6 +1,6 @@
 import 'package:esgarden/Models/DataElement.dart';
 import 'package:esgarden/Models/Plot.dart';
-import 'package:esgarden/Screens/Graphs/Historic/HistoricTab.dart';
+import 'package:esgarden/Screens/Graphs/Historic/HistoricCard.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +67,7 @@ class HistoricScreen extends StatelessWidget {
   }
 
   _buildItem(String tp) {
-    return HistoricTab(
+    return HistoricCard(
       data: this.data,
       type: tp,
       color: Colors.green,

@@ -1,8 +1,8 @@
 import 'package:esgarden/Library/Globals.dart';
 import 'package:esgarden/Models/DataElement.dart';
 import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Models/TimeSerie.dart';
 import 'package:esgarden/Screens/Graphs/SimpleGraph.dart';
-import 'package:esgarden/UI/LineChart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -157,7 +157,7 @@ class DayTabState extends State<DayTab> {
     int highest = 0;
     int pos = 0;
     List<DataElement> DataElements = data;
-    Map<int, List<TimeSeriesValue>> dataLists = {};
+    Map<int, List<TimeSeries>> dataLists = {};
     DataElements.removeWhere((value) => value == null);
     int numeroDeValores = 1;
     if (VALUE_RELATION[widget.type] != null) {
@@ -188,7 +188,7 @@ class DayTabState extends State<DayTab> {
     int lowest = val;
     int pos = 0;
     List<DataElement> DataElements = data;
-    Map<int, List<TimeSeriesValue>> dataLists = {};
+    Map<int, List<TimeSeries>> dataLists = {};
     DataElements.removeWhere((value) => value == null);
     int numeroDeValores = 1;
     if (VALUE_RELATION[widget.type] != null) {

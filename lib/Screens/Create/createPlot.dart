@@ -238,6 +238,8 @@ class FormPlotState extends State<FormPlot> {
                       "The plot " + nameContoller.text + " has been created!"),
                 );
               });
+          Navigator.pop(context);
+          Navigator.pop(context);
         }
       },
       label: Text(

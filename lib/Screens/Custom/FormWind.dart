@@ -1,9 +1,9 @@
 import 'package:esgarden/Library/Globals.dart';
 import 'package:esgarden/Models/DataElement.dart';
 import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Models/TimeSerie.dart';
 import 'package:esgarden/Models/Vegetable.dart';
-import 'package:esgarden/Screens/Graphs/MainScreen.dart';
-import 'package:esgarden/UI/LineChart.dart';
+import 'package:esgarden/Screens/Graphs/Days/MainScreen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +129,7 @@ class formWind extends StatelessWidget {
     int pos = 0;
     //if(data.isEmpty)
     List<DataElement> DataElements = data;
-    Map<int, List<TimeSeriesValue>> dataLists = {};
+    Map<int, List<TimeSeries>> dataLists = {};
     DataElements.removeWhere((value) => value == null);
     var typeNo = int.parse(CATALOG_TYPES["wind"]);
 

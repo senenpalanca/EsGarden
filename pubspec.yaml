@@ -33,6 +33,8 @@ dependencies:
   charts_flutter: ^0.8.1
   badges: ^1.1.0
   table_calendar: ^2.2.2
+  google_maps_flutter: ^0.5.28+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

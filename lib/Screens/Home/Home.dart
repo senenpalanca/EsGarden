@@ -25,12 +25,9 @@ class _HomeState extends State<Home> {
     gardensref = _database.reference().child('Gardens');
     gardensref.reference().onChildAdded.listen(_onChildAdded);
     gardensref.reference().onChildChanged.listen(_onChildChanged);
+    gardensref.reference().onChildRemoved.listen(_onChildChanged);
   }
 
-  Future<String> getDataFromFuture() async {
-    isTeacher = await _auth.isTeacher();
-
-  }
 
   void _onChildAdded(Event event) {
     setState(() {
@@ -46,6 +43,8 @@ class _HomeState extends State<Home> {
       gardens[gardens.indexOf(old)] = Orchard.fromSnapshot(event.snapshot);
     });
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

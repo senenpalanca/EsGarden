@@ -2,12 +2,12 @@ import 'package:esgarden/Models/DataElement.dart';
 import 'package:esgarden/Screens/Graphs/SimpleGraph.dart';
 import 'package:flutter/material.dart';
 
-class HistoricTab extends StatelessWidget {
+class HistoricCard extends StatelessWidget {
   List<DataElement> data;
   String type;
   Color color;
 
-  HistoricTab({this.data, this.type, this.color});
+  HistoricCard({this.data, this.type, this.color});
 
   @override
   Widget build(BuildContext context) {

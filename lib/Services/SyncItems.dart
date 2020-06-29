@@ -1,8 +1,9 @@
 import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Screens/Custom/FormVegetable.dart';
+import 'package:esgarden/Screens/Custom/FormWind.dart';
+import 'package:esgarden/Screens/Custom/formGeoloc.dart';
+import 'package:esgarden/Screens/Graphs/Days/MainScreen.dart';
 import 'package:esgarden/Screens/Graphs/Historic/HistoricScreen.dart';
-import 'package:esgarden/Screens/Graphs/MainScreen.dart';
-import 'package:esgarden/Screens/Items/FormVegetable.dart';
-import 'package:esgarden/Screens/Items/FormWind.dart';
 import 'package:esgarden/UI/CardItem.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -220,14 +221,18 @@ class SyncItemsService {
           },
         );
         break;
-      case "ElectroValve":
+      case "GeoLocalization":
         return new CardItem(
           caption: item,
           color: Colors.cyan,
           icon: Icons.vertical_align_center,
           pad: 10,
           tapFunction: () {
-            _push("electrovalve", Colors.cyan);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => formGeoloc(PlotKey: PlotKey)),
+            );
           },
         );
         break;
@@ -268,16 +273,17 @@ class SyncItemsService {
           },
         );
         break;
+      default:
+        return new CardItem(
+          caption: item,
+          color: Colors.green,
+          icon: Icons.arrow_back,
+          pad: 10,
+          tapFunction: () {
+            print("not implemented");
+          },
+        );
+        break;
     }
-
-    return new CardItem(
-      caption: item,
-      color: Colors.green,
-      icon: Icons.arrow_back,
-      pad: 10,
-      tapFunction: () {
-        print("tap on Prueba1");
-      },
-    );
   }
 }

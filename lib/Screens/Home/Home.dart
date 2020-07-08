@@ -17,18 +17,30 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   bool isTeacher = false;
   DatabaseReference gardensref;
+  var _queryAdded;
+  var _queryChanged;
 
   @override
   void initState() {
     super.initState();
     final FirebaseDatabase _database = FirebaseDatabase.instance;
     gardensref = _database.reference().child('Gardens');
-    gardensref.reference().onChildAdded.listen(_onChildAdded);
-    gardensref.reference().onChildChanged.listen(_onChildChanged);
-    gardensref.reference().onChildRemoved.listen(_onChildChanged);
+    _queryAdded = gardensref
+        .reference()
+        .orderByChild("key")
+        .onChildAdded
+        .listen(_onChildAdded);
+    _queryChanged =
+        gardensref.reference().onChildChanged.listen(_onChildChanged);
+    //gardensref.reference().onChildRemoved.listen(_onChildChanged);
   }
 
-
+  @override
+  void dispose() {
+    _queryAdded.cancel();
+    _queryChanged.cancel();
+    super.dispose();
+  }
   void _onChildAdded(Event event) {
     setState(() {
       gardens.add(Orchard.fromSnapshot(event.snapshot));
@@ -36,9 +48,11 @@ class _HomeState extends State<Home> {
   }
 
   void _onChildChanged(Event event) {
+    print("CHANGED");
     var old = gardens.singleWhere((entry) {
       return entry.key == event.snapshot.key;
     });
+
     setState(() {
       gardens[gardens.indexOf(old)] = Orchard.fromSnapshot(event.snapshot);
     });

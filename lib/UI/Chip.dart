@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'file:///X:/Proyectos/flutte/ESGarden/esgarden/lib/Models/Alerts.dart';
+
 class OptionChips extends StatefulWidget {
   final List<String> typeSeries;
   final Function(String) onSelectionChanged;
@@ -11,7 +13,7 @@ class OptionChips extends StatefulWidget {
 }
 
 class _OptionChipsState extends State<OptionChips> {
-  String selectedChoice = "";
+  String selectedChoice = typeSeries[0];
 
   // this function will build and return the choice list
   _buildChoiceList() {

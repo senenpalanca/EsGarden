@@ -140,12 +140,12 @@ class _SimpleGraphState extends State<SimpleGraph> {
   XyDataSeries<DataElement, DateTime> _createOneSerie(int i, int noOfValues) {
     switch (SeriesType) {
       case "RAW Data":
-        return AreaSeries<DataElement, DateTime>(
+        return LineSeries<DataElement, DateTime>(
             name: VALUE_RELATION[widget.type] == null
                 ? CATALOG_NAMES[CATALOG_TYPES[widget.type]]
                 : VALUE_RELATION[widget.type][i],
-            borderColor: noOfValues == 1 ? widget.color : colors[i],
-            borderWidth: 3,
+            //borderColor: noOfValues == 1 ? widget.color : colors[i],
+            //borderWidth: 3,
             color: noOfValues == 1
                 ? widget.color.withOpacity(0.9)
                 : colors[i].withOpacity(0.9),
@@ -159,12 +159,12 @@ class _SimpleGraphState extends State<SimpleGraph> {
             elm.Values[double.parse(CATALOG_TYPES[widget.type])][i]);
         break;
       default:
-        return SplineAreaSeries<DataElement, DateTime>(
+        return SplineSeries<DataElement, DateTime>(
             name: VALUE_RELATION[widget.type] == null
                 ? CATALOG_NAMES[CATALOG_TYPES[widget.type]]
                 : VALUE_RELATION[widget.type][i],
-            borderColor: noOfValues == 1 ? widget.color : colors[i],
-            borderWidth: 3,
+            //borderColor: noOfValues == 1 ? widget.color : colors[i],
+            //borderWidth: 3,
             color: noOfValues == 1
                 ? widget.color.withOpacity(0.9)
                 : colors[i].withOpacity(0.9),
@@ -172,8 +172,7 @@ class _SimpleGraphState extends State<SimpleGraph> {
             markerSettings: MarkerSettings(
               isVisible: widget.data.length < 23 ? true : false,
             ),
-            xValueMapper: (DataElement elm, _) =>
-                elm.timestamp.subtract(new Duration(hours: 1)),
+            xValueMapper: (DataElement elm, _) => elm.timestamp.toUtc(),
             yValueMapper: (DataElement elm, _) =>
             elm.Values[double.parse(CATALOG_TYPES[widget.type])][i]
         );

@@ -123,7 +123,7 @@ class _RegisterState extends State<Register> {
     String reg = regContoller.text;
     String user = userContoller.text;
     String pass = passContoller.text;
-    if (reg == "ABC") {
+    if (reg == "PQ7h99#7163@") {
       if (user != "") {
         if (pass != "") {
           return true;

@@ -19,7 +19,7 @@ class CardPlot extends StatelessWidget {
   Widget build(BuildContext context) {
     this.Title = PlotKey.Name;
     this.Vegetable = PlotKey.Vegetable;
-    this.alerts = PlotKey.alerts;
+
     this.ImgTitle = PlotKey.img;
     this.Location = PlotKey.City;
     this.alertsNo =

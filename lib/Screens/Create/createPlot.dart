@@ -240,6 +240,9 @@ class FormPlotState extends State<FormPlot> {
               });
           Navigator.pop(context);
           Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          //Navigator.pop(context);
         }
       },
       label: Text(
@@ -273,13 +276,15 @@ class FormPlotState extends State<FormPlot> {
     final databaseReference = _database.child("Gardens");
     final databaseOrchard = databaseReference.child(widget.OrchardKey.key);
     final databasePlot = databaseOrchard.child("sensorData");
+    String plotKey = findFirstPlace();
     var set =
         databasePlot.child("plot " + (widget.plots.length - 2).toString()).set({
       "Name": nameContoller.text,
-      "Alerts": {
-        "C1": ["No Notifications"],
-        "H1": ["No notifications"],
-        "T1": ["No notifications"]
+      "Valve": {
+        "Max": [0],
+        "Min": [0],
+        "Active": [0],
+        "Sensor": 255
       },
       "Data": {},
       "City": widget.OrchardKey.City,
@@ -291,6 +296,11 @@ class FormPlotState extends State<FormPlot> {
       "VegetableIndex": vegetableValue,
     });
   }
+
+  String findFirstPlace() {
+
+  }
+
 
 
 }

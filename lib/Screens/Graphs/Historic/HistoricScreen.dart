@@ -9,7 +9,7 @@ class HistoricScreen extends StatelessWidget {
   List<DataElement> data = new List<DataElement>();
   Plot PlotKey;
   final FirebaseDatabase _database = FirebaseDatabase.instance;
-  List<String> typesToShow = ["soiltemperature", "soilhumidity"];
+  List<String> typesToShow = ["ambienttemperature", "ambienthumidity"];
 
   HistoricScreen({Key key, @required this.PlotKey}) : super(key: key);
 

@@ -5,6 +5,8 @@ import 'package:esgarden/UI/CardItem.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import 'file:///X:/Proyectos/flutte/ESGarden/esgarden/lib/Screens/Alerts/AlertItem.dart';
+
 List<CardItem> listItems = [];
 
 SyncItemsService Service = SyncItemsService();
@@ -23,7 +25,13 @@ class LoadItems extends StatelessWidget {
     Service.Start(PlotKey, context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Items"),
+        title: Row(
+            children: <Widget>[
+
+              AlertItem(PlotKey: PlotKey, title: "Items",),
+              //BadgeTitle(title: "aa",PlotKey: PlotKey,)
+            ]
+        ), //,
         leading: new IconButton(
             icon: new Icon(
               Icons.arrow_back,
@@ -172,6 +180,7 @@ class LoadItems extends StatelessWidget {
       },
     );
   }
+
 
 }
 
@@ -326,3 +335,4 @@ class _ItemsState extends State<Items> {
     });
   }
 }
+

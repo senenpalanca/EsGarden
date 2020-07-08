@@ -8,7 +8,8 @@ class Plot {
   List<dynamic> HumidityInf;
   List<dynamic> CO2;
   List<dynamic> items;
-  Map<dynamic, dynamic> alerts;
+
+  //dynamic alerts;
   Map<dynamic, dynamic> data;
   String Vegetable;
   String City;
@@ -20,7 +21,7 @@ class Plot {
 
   Plot.fromSnapshot(DataSnapshot snapshot)
       : key = snapshot.key,
-        alerts = snapshot.value["Alerts"],
+        //alerts = snapshot.value["Alerts"],
         data = snapshot.value["Data"],
         Name = snapshot.value["Name"],
         img = snapshot.value["Img"],
@@ -42,7 +43,8 @@ class Plot {
       "CO2": CO2,
       "Humidity30": HumiditySup,
       "Humidity40": HumidityInf,
-      "Alerts": alerts
+      //"Alerts": alerts,
+      "Parent": parent
     };
   }
 }

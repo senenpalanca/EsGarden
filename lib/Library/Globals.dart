@@ -87,29 +87,36 @@ const Map<String, List<String>> VALUE_RELATION = const {
 };
 const Map<String, List<String>> ITEMS_PLOTS = const {
   "General": [
+    "ElectroValve",
     "Humidity",
     "Temperature",
-    "GeoLocalization",
     "Air Quality",
     "Brightness",
     "Wind"
   ],
-  "Nursery": ["Brightness", "Air Quality", "Temperature", "Humidity"],
+  "Nursery": [
+    "ElectroValve",
+    "Brightness",
+    "Air Quality",
+    "Temperature",
+    "Humidity"
+  ],
   "Compost": [
+    "ElectroValve",
     "Compost Humidity",
     "Air Quality",
     "Historic Data",
     "Compost Temperature",
     "Brightness"
   ],
-  "plot 1": ["Vegetable", "Humidity", "Temperature"],
-  "plot 2": ["Vegetable", "Humidity", "Temperature"],
-  "plot 3": ["Vegetable", "Humidity", "Temperature"],
-  "plot 4": ["Vegetable", "Humidity", "Temperature"],
-  "plot 5": ["Vegetable", "Humidity", "Temperature"],
-  "plot 6": ["Vegetable", "Humidity", "Temperature"],
-  "plot 7": ["Vegetable", "Humidity", "Temperature"],
-  "plot 8": ["Vegetable", "Humidity", "Temperature"],
+  "plot 1": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
+  "plot 2": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
+  "plot 3": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
+  "plot 4": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
+  "plot 5": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
+  "plot 6": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
+  "plot 7": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
+  "plot 8": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
 };
 const List<String> typeTrends = [
   "RAW Data",

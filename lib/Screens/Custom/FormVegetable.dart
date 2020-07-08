@@ -134,7 +134,7 @@ class formVegetable extends StatelessWidget {
                   child: Text(
                     vegetable.name,
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 25,
                       foreground: Paint()
                         ..style = PaintingStyle.fill
                         ..strokeWidth = 1
@@ -236,7 +236,7 @@ class formVegetable extends StatelessWidget {
                               ),
                             ),*/
                           Padding(
-                            padding: const EdgeInsets.all(4.0),
+                            padding: const EdgeInsets.all(1.0),
                             child: Row(
                               children: <Widget>[
                                 Text(

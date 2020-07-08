@@ -1,4 +1,5 @@
 import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Screens/Custom/FormElectroValve.dart';
 import 'package:esgarden/Screens/Custom/FormVegetable.dart';
 import 'package:esgarden/Screens/Custom/FormWind.dart';
 import 'package:esgarden/Screens/Custom/formGeoloc.dart';
@@ -121,7 +122,7 @@ class SyncItemsService {
           icon: Icons.ac_unit,
           pad: 10,
           tapFunction: () {
-            _push("soiltemperature", Colors.red);
+            _push("ambienttemperature", Colors.red);
           },
         );
         break;
@@ -217,7 +218,11 @@ class SyncItemsService {
           icon: Icons.vertical_align_center,
           pad: 10,
           tapFunction: () {
-            _push("electrovalve", Colors.cyan);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NFormElectroValve(PlotKey: PlotKey)),
+            );
           },
         );
         break;

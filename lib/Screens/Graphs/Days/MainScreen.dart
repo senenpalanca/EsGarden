@@ -5,8 +5,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'file:///X:/Proyectos/flutte/ESGarden/esgarden/lib/Screens/Alerts/AlertCreate.dart';
+
 import '../../../Library/Globals.dart';
-import 'AlertTab.dart';
 
 class formChart extends StatefulWidget {
   Plot PlotKey;
@@ -68,19 +69,58 @@ class formChartState extends State<formChart> {
             " of " +
             widget.PlotKey.Name),
         backgroundColor: widget.color,
+        actions: <Widget>[
+          PopupMenuButton<int>(
+              enabled: isAdmin,
+              itemBuilder: (BuildContext context) => [
+                    PopupMenuItem(
+                      enabled: false,
+                      value: 1,
+                      child: Text(
+                        "Options ",
+                        style: TextStyle(color: Colors.green, fontSize: 16.0),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 2,
+                      enabled: isAdmin,
+                      child: FlatButton(
+                        onPressed: () {
+                          print("pressed");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AlertCreate(
+                                        PlotKey: widget.PlotKey,
+                                        type: CATALOG_NAMES[
+                                            CATALOG_TYPES[widget.type]],
+                                      )));
+                        },
+                        child: Text(
+                          "Create Alert",
+                          style:
+                              TextStyle(color: Colors.black45, fontSize: 18.0),
+                        ),
+                      ),
+                    ),
+                  ]),
+        ],
       ),
       body: FormUI(),
     );
   }
 
   Widget FormUI() {
+
     _prepareTabs();
     if (widget.firstTime) {
       widget.firstTime = false;
       return FutureBuilder(
           future: waitToLastPage(),
           builder: (context, snapshot) {
+
             if (snapshot.data != null) {
+              print(data);
               List<Widget> buf = _createTabs(context);
               tabs = buf;
 
@@ -168,10 +208,7 @@ class formChartState extends State<formChart> {
         dayText: dias.keys.toList()[i],
       ));
     }
-    fin.add(AlertsTab(
-      type: widget.type,
-      PlotKey: widget.PlotKey,
-    ));
+
     return fin;
   }
 

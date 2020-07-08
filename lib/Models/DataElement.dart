@@ -4,7 +4,7 @@ class DataElement {
   String key;
   dynamic DataSlot;
   Map<dynamic, dynamic> Values = new Map();
-
+  int val = -1;
   //List Fields;
   List Types;
 

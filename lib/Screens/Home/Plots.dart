@@ -23,7 +23,9 @@ class _PlotsState extends State<PlotsOfGarden> {
   final AuthService _auth = AuthService();
   bool isTeacher = false;
   DatabaseReference plotsref;
-
+  var sub1;
+  var sub2;
+  var sub3;
   @override
   void initState() {
     super.initState();
@@ -33,9 +35,17 @@ class _PlotsState extends State<PlotsOfGarden> {
         .child('Gardens')
         .child(widget.OrchardKey.key)
         .child('sensorData');
-    plotsref.reference().onChildAdded.listen(_onChildAdded);
-    plotsref.reference().onChildChanged.listen(_onChildChanged);
-    plotsref.reference().onChildRemoved.listen(_onChildChanged);
+    sub1 = plotsref.reference().onChildAdded.listen(_onChildAdded);
+    sub2 = plotsref.reference().onChildChanged.listen(_onChildChanged);
+    //sub3 = plotsref.reference().onChildRemoved.listen(_onChildChanged);
+  }
+
+  @override
+  void dispose() {
+    sub1?.cancel();
+    sub2?.cancel();
+    //sub3?.cancel();
+    super.dispose();
   }
 
   @override
@@ -46,7 +56,8 @@ class _PlotsState extends State<PlotsOfGarden> {
           actions: <Widget>[
             PopupMenuButton<int>(
                 onSelected: _manageMenuOptions,
-                enabled: true,
+
+                enabled: Globals.isAdmin,
                 itemBuilder: (BuildContext context) => [
                       PopupMenuItem(
                         enabled: false,
@@ -119,6 +130,7 @@ class _PlotsState extends State<PlotsOfGarden> {
   }
 
   void _onChildAdded(Event event) {
+
     setState(() {
       plots.add(Plot.fromSnapshot(event.snapshot));
     });
@@ -128,9 +140,12 @@ class _PlotsState extends State<PlotsOfGarden> {
     var old = plots.singleWhere((entry) {
       return entry.key == event.snapshot.key;
     });
+    print(plots.map((e) => e.key));
+    print(old.key);
     setState(() {
       plots[plots.indexOf(old)] = Plot.fromSnapshot(event.snapshot);
     });
+    print(plots.map((e) => e.key));
   }
 
   void _manageMenuOptions(int value) {

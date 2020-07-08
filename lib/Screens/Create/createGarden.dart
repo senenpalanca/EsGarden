@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../UI/PersonalizedField.dart';
 
@@ -13,6 +16,15 @@ class FormGardenState extends State<FormGarden> {
   final nameContoller = TextEditingController();
   final cityContoller = TextEditingController();
   final imgContoller = TextEditingController();
+  File _image;
+
+  Future _getImage() async {
+    final image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      _image = image;
+    });
+  }
+
   final _database = FirebaseDatabase.instance.reference();
 
   @override
@@ -87,6 +99,7 @@ class FormGardenState extends State<FormGarden> {
           showDialog(
               context: context,
               builder: (context) {
+                createRecord();
                 return AlertDialog(
                   title: Text("Garden Created"),
                   content: Text("The garden " +
@@ -112,7 +125,7 @@ class FormGardenState extends State<FormGarden> {
     String image = imgContoller.text;
     if (name.length > 0 && city.length > 0 && image.length >= 0) {
       print("Fields validated");
-      createRecord();
+
       return true;
     } else {
       print("Fields not validated");
@@ -123,8 +136,7 @@ class FormGardenState extends State<FormGarden> {
   void createRecord() {
     String img = imgContoller.text;
     if (img.length == 0) {
-      img =
-          "https://northgwinnettcoop.org/wp-content/uploads/2017/06/Fresh-Fruits-Vegetables.jpg";
+      img = "https://i.ibb.co/rwgX7b3/garden2.jpg";
     }
     final databaseReference = _database.child("Gardens");
     databaseReference.child(nameContoller.text).set({
@@ -140,32 +152,34 @@ class FormGardenState extends State<FormGarden> {
         "General": {
           "Name": "General",
           "Data": {},
-          "Alerts": {
-            "C1": ["No Notifications"],
-            "H1": ["No notifications"],
-            "T1": ["No notifications"]
+          "Valve": {
+            "Max": [0],
+            "Min": [0],
+            "Active": [0],
+            "Sensor": 255
           },
           "City": cityContoller.text,
           "Items": [
-            "Ambient Temperature",
+            "Temperature",
             "Air Quality",
-            "Ambient Humidity",
+            "Humidity",
             "Brightness"
           ],
-          "Img": img,
+          "Img": "https://i.ibb.co/nPFdzdv/general1.jpg",
           "Parent": nameContoller.text,
           "Vegetable": "General"
         },
         "Nursery": {
           "Name": "Nursery",
           "Data": {},
-          "Alerts": {
-            "C1": ["No Notifications"],
-            "H1": ["No notifications"],
-            "T1": ["No notifications"]
+          "Valve": {
+            "Max": [0],
+            "Min": [0],
+            "Active": [0],
+            "Sensor": 255
           },
           "City": cityContoller.text,
-          "Items": ["Ambient Temperature", "Air Quality", "Ambient Humidity"],
+          "Items": ["Temperature", "Air Quality", "Humidity"],
           "Img": "https://i.ibb.co/ZYFqJyM/PLANTA-web.jpg",
           "Parent": nameContoller.text,
           "Vegetable": "General"
@@ -173,15 +187,16 @@ class FormGardenState extends State<FormGarden> {
         "Compost": {
           "Name": "Compost",
           "Data": {},
-          "Alerts": {
-            "C1": ["No Notifications"],
-            "H1": ["No notifications"],
-            "T1": ["No notifications"]
+          "Valve": {
+            "Max": [0],
+            "Min": [0],
+            "Active": [0],
+            "Sensor": 255
           },
           "City": cityContoller.text,
           "Items": ["Compost Temperature", "Compost Humidity", "Air Quality"],
           "Img":
-              "https://cdn.pixabay.com/photo/2017/06/09/12/51/fresh-2386786_960_720.jpg",
+          "https://cdn.pixabay.com/photo/2017/06/09/12/51/fresh-2386786_960_720.jpg",
           "Parent": nameContoller.text,
           "Vegetable": "General"
         }

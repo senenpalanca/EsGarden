@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../UI/PersonalizedField.dart';
@@ -16,15 +18,17 @@ class FormGardenState extends State<FormGarden> {
   final nameContoller = TextEditingController();
   final cityContoller = TextEditingController();
   final imgContoller = TextEditingController();
-  File _image;
 
-  Future _getImage() async {
-    final image = await ImagePicker.pickImage(source: ImageSource.camera);
+  File _image;
+  final picker = ImagePicker();
+
+  Future<int> getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
     setState(() {
-      _image = image;
+      _image = File(pickedFile.path);
     });
   }
-
   final _database = FirebaseDatabase.instance.reference();
 
   @override
@@ -47,6 +51,19 @@ class FormGardenState extends State<FormGarden> {
     super.dispose();
   }
 
+  Future uploadImage() async {
+    StorageReference storageReference = FirebaseStorage.instance.ref();
+    //.child('chats/${Path.basename(_image.path)}}');
+    StorageUploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.onComplete;
+    print('File Uploaded');
+    storageReference.getDownloadURL().then((fileURL) {
+      setState(() {
+        // _uploadedFileURL = fileURL;
+      });
+    });
+  }
+
   Widget formUI() {
     return Container(
       color: Colors.green,
@@ -56,7 +73,7 @@ class FormGardenState extends State<FormGarden> {
         child: ListView(
           children: <Widget>[
             Container(
-              height: 480,
+              height: 580, //420,
               child: Padding(
                 padding: const EdgeInsets.only(top: 30.0),
                 child: Column(
@@ -66,13 +83,35 @@ class FormGardenState extends State<FormGarden> {
                       'images/icon.png',
                       width: 300.0,
                     ),
+                    _image != null
+                        ? Image.asset(
+                      _image.path,
+                      height: 150,
+                    )
+                        : Container(height: 150),
+                    RaisedButton(
+                      onPressed: getImage,
+                      color: Colors.deepOrange,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(Icons.camera_enhance, color: Colors.white,),
+                          Text("Select Image", style: TextStyle(
+                              fontSize: 20, color: Colors.white),)
+                        ],
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                    ),
                     PersonalizedField(nameContoller, "Name of the Garden",
                         false, Icon(Icons.note_add, color: Colors.white)),
                     PersonalizedField(cityContoller, "City of the Garden",
                         false, Icon(Icons.location_city, color: Colors.white)),
                     //PersonalizedField2(vegetableContoller,"Vegetables to plant",false,Icon(Icons.assignment, color: Colors.white)),
+                    /*
                     PersonalizedField(imgContoller, "Image URL Logo", false,
                         Icon(Icons.assignment, color: Colors.white)),
+*/
                   ],
                 ),
               ),

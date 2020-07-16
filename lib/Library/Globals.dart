@@ -118,6 +118,41 @@ const Map<String, List<String>> ITEMS_PLOTS = const {
   "plot 7": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
   "plot 8": ["ElectroValve", "Vegetable", "Soil Humidity", "Soil Temperature"],
 };
+
+const Map<String, List<String>> SENSOR_PLOTS = const {
+  "General": [
+    "ElectroValve",
+    "Humidity",
+    "Temperature",
+    "Air Quality",
+    "Brightness",
+    "Wind"
+  ],
+  "Nursery": [
+    "ElectroValve",
+    "Brightness",
+    "Air Quality",
+    "Temperature",
+    "Humidity"
+  ],
+  "Compost": [
+    "ElectroValve",
+    "Compost Humidity",
+    "Air Quality",
+    "Historic Data",
+    "Compost Temperature",
+    "Brightness"
+  ],
+  "plot 1": ["ElectroValve", "Soil Humidity", "Soil Temperature"],
+  "plot 2": ["ElectroValve", "Soil Humidity", "Soil Temperature"],
+  "plot 3": ["ElectroValve", "Soil Humidity", "Soil Temperature"],
+  "plot 4": ["ElectroValve", "Soil Humidity", "Soil Temperature"],
+  "plot 5": ["ElectroValve", "Soil Humidity", "Soil Temperature"],
+  "plot 6": ["ElectroValve", "Soil Humidity", "Soil Temperature"],
+  "plot 7": ["ElectroValve", "Soil Humidity", "Soil Temperature"],
+  "plot 8": ["ElectroValve", "Soil Humidity", "Soil Temperature"],
+};
+
 const List<String> typeTrends = [
   "RAW Data",
   "Polynomic Data"

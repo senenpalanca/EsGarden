@@ -38,16 +38,17 @@ class AlertStamp {
 }
 
 class AlertModel {
-  String type;
+  var type;
   String condition;
   int value;
-  String key;
+
+  //String key;
   int field;
 
-  AlertModel({this.type, this.value, this.field, this.condition, this.key});
+  AlertModel({this.type, this.value, this.field, this.condition});
 
   AlertModel.fromSnapshot(DataSnapshot snapshot)
-      : key = snapshot.key,
+      : // key = snapshot.key,
         type = snapshot.value["Type"],
         condition = snapshot.value["Condition"],
         field = snapshot.value["Field"],

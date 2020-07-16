@@ -21,6 +21,14 @@ class _AlertListState extends State<AlertList> {
       appBar: AppBar(
         title: Text("Alerts List of " + widget.PlotKey.Name),
         backgroundColor: Colors.green,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {});
+            },
+          ),
+        ],
       ),
       body: ListView(
         children: _getAlerts(),
@@ -51,10 +59,11 @@ class _AlertListState extends State<AlertList> {
     Item AlertItem,
     int position,
   ) {
+
     var val = AlertItem.val ?? 0;
     var exp = AlertItem.exp ?? 0;
     var cond = AlertItem.cond ?? 0;
-    String tCond = cond == "Bigger" ? "<=" : ">=";
+    String tCond = cond == "Bigger" ? ">=" : "=<";
     String ReadableType = CATALOG_NAMES[CATALOG_TYPES[type]];
     String strPos =
         VALUE_RELATION[type] == null ? "" : VALUE_RELATION[type][position];
@@ -62,7 +71,8 @@ class _AlertListState extends State<AlertList> {
     String adder = VALUE_RELATION[type] != null ? "on $strPos" : "";
     return ListTile(
       title: Text("$ReadableType $adder"),
-      subtitle: Text("Expected $tCond $exp, but found $val"),
+      subtitle: Text("Expected $tCond $exp, found $val"),
+      //leading: Icon(Icons.warning),
     );
   }
 }

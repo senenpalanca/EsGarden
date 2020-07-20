@@ -16,6 +16,8 @@ class NFormElectroValve extends StatefulWidget {
 }
 
 class _FormElectroValveState extends State<NFormElectroValve> {
+  bool firstTimeBuild = true;
+
   //int isSelected = -1;
   bool firstTimeTab = true;
   String prevType;
@@ -47,7 +49,7 @@ class _FormElectroValveState extends State<NFormElectroValve> {
       if (_list[i] == "Vegetable" ||
           _list[i] == "ElectroValve" ||
           _list[i] == "Historic Data") {
-        print(_list[i]);
+
       } else {
         DropdownList.add(ITEMS_PLOTS[widget.PlotKey.key][i]);
       }
@@ -81,8 +83,12 @@ class _FormElectroValveState extends State<NFormElectroValve> {
       future: databasePlot.once(),
       builder: (context, snapshot) {
         if (snapshot.data != null) {
-          myValve = Valve.fromSnapshot(snapshot.data);
-          valveOnFirebase = myValve;
+          if (firstTimeBuild) {
+            myValve = Valve.fromSnapshot(snapshot.data);
+            valveOnFirebase = myValve;
+            firstTimeBuild = false;
+          }
+
           //print(myValve.toJson());
           return Scaffold(
             appBar: AppBar(
@@ -92,44 +98,47 @@ class _FormElectroValveState extends State<NFormElectroValve> {
                 PopupMenuButton<int>(
                     enabled: isAdmin,
                     itemBuilder: (BuildContext context) => [
-                          PopupMenuItem(
-                            enabled: false,
-                            value: 1,
-                            child: Text(
-                              "Options ",
-                              style: TextStyle(
-                                  color: Colors.green, fontSize: 16.0),
-                            ),
+                      PopupMenuItem(
+                        enabled: false,
+                        value: 1,
+                        child: Text(
+                          "Options ",
+                          style: TextStyle(
+                              color: Colors.green, fontSize: 16.0),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 2,
+                        enabled: isAdmin,
+                        child: FlatButton(
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            Valve emptyValve = new Valve(
+                                sensor: myValve.sensor,
+                                min: [0, 0, 0, 0],
+                                max: [0, 0, 0, 0],
+                                active: [0, 0, 0, 0]);
+                            var set =
+                            await databasePlot.set(emptyValve.toJson());
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Text("All rules removed!"),
+                                  );
+                                }
+                            );
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Clear all Electrovalve rules",
+                            style: TextStyle(
+                                color: Colors.black45, fontSize: 18.0),
                           ),
-                          PopupMenuItem(
-                            value: 2,
-                            enabled: isAdmin,
-                            child: FlatButton(
-                              onPressed: () async {
-                                Navigator.pop(context);
-                                Valve emptyValve = new Valve(
-                                    sensor: myValve.sensor,
-                                    min: [0, 0, 0, 0],
-                                    max: [0, 0, 0, 0],
-                                    active: [0, 0, 0, 0]);
-                                var set =
-                                    await databasePlot.set(emptyValve.toJson());
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        content: Text("All rules removed!"),
-                                      );
-                                    });
-                              },
-                              child: Text(
-                                "Clear all Electrovalve rules",
-                                style: TextStyle(
-                                    color: Colors.black45, fontSize: 18.0),
-                              ),
-                            ),
-                          )
-                        ]),
+                        ),
+                      )
+                    ]),
               ],
             ),
             body: Container(
@@ -161,7 +170,7 @@ class _FormElectroValveState extends State<NFormElectroValve> {
                       ],
                     ),
                   ),
-                  _createMaxAndMin(),
+                  _createNewMaxAndMin(),
                 ],
               ),
             ),
@@ -174,12 +183,113 @@ class _FormElectroValveState extends State<NFormElectroValve> {
     );
   }
 
+  Widget _createNewMaxAndMin() {
+    String strWind = "";
+    if (typeSelected != null && typeSelected != prevType) {
+      strWind = typeSelected == "Wind" ? "Wind Force" : "";
+      String type = _getTypeFromReadableType(typeSelected);
+      int myType = int.parse(CATALOG_TYPES[type]);
+
+      print("Build tab");
+      prevType = typeSelected;
+      if (myType != myValve.sensor) {
+        myValve = new Valve(
+            sensor: myValve.sensor,
+            min: [0, 0, 0, 0],
+            max: [0, 0, 0, 0],
+            active: [0, 0, 0, 0]);
+      } else {
+        myValve = valveOnFirebase;
+      }
+      _setControllersText(typeSelected);
+    }
+    if (typeSelected != null) {
+      return Card(
+        child: Container(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width / 1.1,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  typeSelected,
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              Text(strWind),
+              _createEachOne(),
+              RaisedButton(
+                  color: activated.contains(1) ? Colors.green : Colors.grey,
+                  textColor: Colors.white,
+                  child: Text("Save"),
+                  onPressed: () async {
+                    //print(widget._valueController.text);
+
+                    if (_checkControllers(typeSelected)) {
+                      _fillMaxAndMin(typeSelected);
+                      String typetemp = _getTypeFromReadableType(typeSelected);
+
+                      Valve newValve = Valve(active: activated,
+                          max: max,
+                          min: min,
+                          sensor: int.parse(CATALOG_TYPES[typetemp]));
+                      /* var set = await databasePlot.child(field).set({
+                          "Active": isSelected == field,
+                          "Sensor": type,
+                          "Field": field,
+                          "Max": int.parse(_valueMaxController.text),
+                          "Min": int.parse(_valueMinController.text),
+                        });*/
+                      var set = await databasePlot.set(newValve.toJson());
+                      //print("AAAAAAAAAAA");
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text("Electrovalve updated!"),
+                            );
+                          });
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text("Check Max and Min!"),
+                            );
+                          });
+                    }
+                  })
+            ],
+          ),
+        ),
+      );
+    }
+    return Container();
+  }
+
   Widget _createMaxAndMin() {
     //String type = _getTypeFromReadableType(typeSelected);
 
-    if (typeSelected != null) {
-      String strWind = typeSelected == "Wind" ? "Wind Force" : "";
+    print(myValve);
+    if (typeSelected != null && firstTimeTab) {
       String type = _getTypeFromReadableType(typeSelected);
+      /*
+      if(typeSelected != prevType){
+        if(valveOnFirebase.sensor == int.parse(CATALOG_TYPES[type])){
+          print ("CHARGE DATA");
+        }
+
+      }*/
+      if (prevType != typeSelected) {
+        firstTimeTab = true;
+      }
+      prevType = typeSelected;
+
+      String strWind = typeSelected == "Wind" ? "Wind Force" : "";
+
 
       int myType = int.parse(CATALOG_TYPES[type]);
       myValve = valveOnFirebase;
@@ -346,7 +456,6 @@ class _FormElectroValveState extends State<NFormElectroValve> {
   }
 
   String _getTypeFromReadableType(String ReadableType) {
-    print(ReadableType);
     List<String> Values = CATALOG_NAMES.values.toList();
     List<String> Keys = CATALOG_TYPES.keys.toList();
 
@@ -373,8 +482,6 @@ class _FormElectroValveState extends State<NFormElectroValve> {
                 Switch(
                   value: activated[field] == 1,
                   onChanged: (value) {
-                    print(activated);
-                    print(field);
                     setState(() {
                       if (activated[field] == 1) {
                         activated[field] = 0;
@@ -382,7 +489,6 @@ class _FormElectroValveState extends State<NFormElectroValve> {
                         activated[field] = 1;
                       }
                     });
-                    print(activated);
                   },
                   activeTrackColor: Colors.lightGreenAccent,
                   activeColor: Colors.green,

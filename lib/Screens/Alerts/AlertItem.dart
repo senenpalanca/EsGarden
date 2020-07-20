@@ -22,8 +22,8 @@ class _AlertItemState extends State<AlertItem> {
   bool res;
   bool showContainer = false;
   var timer;
+  bool verb = false;
   final _database = FirebaseDatabase.instance.reference();
-  Map<String, Map> alerts = new Map();
 
   @override
   void initState() {
@@ -52,6 +52,7 @@ class _AlertItemState extends State<AlertItem> {
               GestureDetector(
                 child: Text(widget.title),
                 onTap: () {
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -85,13 +86,15 @@ class _AlertItemState extends State<AlertItem> {
   Widget _createAlertIcon() {}
 
   Future<int> _getAlerts() async {
+
     Map<dynamic, dynamic> getMap = await _fetchData(); //get.value;
+    print(getMap);
     if (getMap != null) {
       List types = getMap.keys.toList();
-      print(types.length);
+      verb ? print(types.length) : null;
       for (var i = 0; i < types.length; i++) {
         var selectedType = types[i];
-        print("Buscamos alertas para el tipo $selectedType");
+        verb ? print("Buscamos alertas para el tipo $selectedType") : null;
 
         dynamic SensorProfiles = getMap[selectedType]; //Perfiles 0,1,2,3
         //print(SensorProfiles.length);
@@ -101,7 +104,7 @@ class _AlertItemState extends State<AlertItem> {
 
         _CheckAlertsForType(SensorProfiles, selectedType, lastElement);
       }
-      print("ALERTS :> $alerts");
+      verb ? print("ALERTS :> $alerts") : null;
     }
 
     return 1;
@@ -150,10 +153,7 @@ class _AlertItemState extends State<AlertItem> {
   void _CheckAlertsForType(
       dynamic SensorProfiles, String selectedType, DataElement lastElement) {
     List keys;
-    if (SensorProfiles is List) {
-      print("Hola List");
-    } else {
-      print("Hola no list");
+    if (!(SensorProfiles is List)) {
       keys = SensorProfiles.keys.toList();
     }
 
@@ -161,7 +161,7 @@ class _AlertItemState extends State<AlertItem> {
         profileIndex < SensorProfiles.length;
         profileIndex++) {
       var AlertProfile = null;
-      // print(SensorProfiles[profileIndex]);
+
       if (keys != null) {
         AlertProfile = SensorProfiles[keys[profileIndex]];
       } else {
@@ -180,8 +180,10 @@ class _AlertItemState extends State<AlertItem> {
                 [AlertProfile["Field"]];
         //print(valueToCheck);
         //print(lastElement.key);
-        print(
-            "Value to check: $valueToCheck, Condition: $Condition, Value expected: $expected");
+        verb
+            ? print(
+            "Value to check: $valueToCheck, Condition: $Condition, Value expected: $expected")
+            : null;
         switch (AlertProfile["Condition"]) {
           case "Lower":
             if (valueToCheck <= AlertProfile["Value"]) {

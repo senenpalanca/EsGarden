@@ -130,7 +130,9 @@ class _ConditionTileState extends State<ConditionTile> {
               _condType = myAlert.condition == "Bigger"
                   ? CondType.bigger
                   : CondType.lower;
+
               widget._valueController.text = myAlert.value.toString();
+
               widget.FirstTime = false;
               SwitchValue = true;
             }
@@ -202,7 +204,7 @@ class _ConditionTileState extends State<ConditionTile> {
                           controller: widget._valueController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: 'val',
+                            labelText: 'value',
                           ),
                         ),
                       ),

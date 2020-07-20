@@ -17,6 +17,8 @@ class AlertList extends StatefulWidget {
 class _AlertListState extends State<AlertList> {
   @override
   Widget build(BuildContext context) {
+    widget.alerts = alerts;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Alerts List of " + widget.PlotKey.Name),

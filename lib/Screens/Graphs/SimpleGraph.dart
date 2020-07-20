@@ -3,6 +3,7 @@ import 'package:esgarden/Library/Globals.dart';
 import 'package:esgarden/Models/DataElement.dart';
 import 'package:esgarden/UI/Chip.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class SimpleGraph extends StatefulWidget {
@@ -45,11 +46,15 @@ class _SimpleGraphState extends State<SimpleGraph> {
             : null,
         zoomPanBehavior: zooming,
         primaryXAxis: DateTimeAxis(
+          desiredIntervals: 4,
+          dateFormat: DateFormat.Hm(),
+          //enableAutoIntervalOnZooming: false,
+          /*
           maximum: widget.data.length < 5 && widget.data.length > 0
               ? widget.data[0].timestamp.add(Duration(hours: 20))
-              : null,
+              : null,*/
           //majorGridLines: MajorG,
-          interval: 2,
+          //interval: 2,
           //dateFormat: ,
           //labelPosition: ChartDataLabelPosition.inside,
           //tickPosition: TickPosition.inside,
@@ -77,9 +82,17 @@ class _SimpleGraphState extends State<SimpleGraph> {
           Stack(
             children: <Widget>[
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  FlatButton(child: Text('Zoom Out'), onPressed: zoom),
+                  new Container(),
+                  RaisedButton(
+                    child: Text(
+                      'Zoom Out',
+                      style: TextStyle(fontSize: 14, color: Colors.white),
+                    ),
+                    onPressed: zoom,
+                    color: Colors.green,
+                  ),
                 ],
               ),
               FlatButton(

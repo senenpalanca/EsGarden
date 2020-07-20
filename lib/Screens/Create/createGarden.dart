@@ -18,7 +18,7 @@ class FormGardenState extends State<FormGarden> {
   final nameContoller = TextEditingController();
   final cityContoller = TextEditingController();
   final imgContoller = TextEditingController();
-
+  var _uploadedFileURL;
   File _image;
   final picker = ImagePicker();
 
@@ -52,16 +52,21 @@ class FormGardenState extends State<FormGarden> {
   }
 
   Future uploadImage() async {
-    StorageReference storageReference = FirebaseStorage.instance.ref();
-    //.child('chats/${Path.basename(_image.path)}}');
-    StorageUploadTask uploadTask = storageReference.putFile(_image);
-    await uploadTask.onComplete;
-    print('File Uploaded');
-    storageReference.getDownloadURL().then((fileURL) {
-      setState(() {
-        // _uploadedFileURL = fileURL;
+    if (_image != null) {
+      StorageReference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('${nameContoller.text}/${_image.path}');
+      //.child('chats/${Path.basename(_image.path)}}');
+      StorageUploadTask uploadTask = storageReference.putFile(_image);
+      await uploadTask.onComplete;
+
+      storageReference.getDownloadURL().then((fileURL) {
+        setState(() {
+          _uploadedFileURL = fileURL;
+          print(_uploadedFileURL);
+        });
       });
-    });
+    }
   }
 
   Widget formUI() {
@@ -138,6 +143,8 @@ class FormGardenState extends State<FormGarden> {
           showDialog(
               context: context,
               builder: (context) {
+                uploadImage();
+
                 createRecord();
                 return AlertDialog(
                   title: Text("Garden Created"),
@@ -172,9 +179,11 @@ class FormGardenState extends State<FormGarden> {
     }
   }
 
-  void createRecord() {
-    String img = imgContoller.text;
-    if (img.length == 0) {
+  Future createRecord() async {
+    await Future.delayed(Duration(seconds: 1));
+    String img = _uploadedFileURL.toString();
+    print(img);
+    if (_uploadedFileURL == null) {
       img = "https://i.ibb.co/rwgX7b3/garden2.jpg";
     }
     final databaseReference = _database.child("Gardens");
@@ -182,10 +191,8 @@ class FormGardenState extends State<FormGarden> {
       'City': cityContoller.text,
       //'Vegetable': vegetableContoller.text,
       //'Alerts' : {"C1" : [ "No Notifications" ],"H1" : [ "No notifications"], "T1" : [ "No notifications"]},
-
       "Latitude": "41.643641",
       "Longitude": "-0.879529",
-
       "Img": img,
       "sensorData": {
         "General": {

@@ -166,6 +166,8 @@ List<dynamic> colors = [
   Colors.redAccent,
 ];
 
+Map<String, Map> alerts = new Map();
+
 /*
 const Map<String, String> CATALOG_TYPES = const {
   "soilhumidity": "00",

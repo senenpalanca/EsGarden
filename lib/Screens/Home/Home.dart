@@ -48,11 +48,10 @@ class _HomeState extends State<Home> {
   }
 
   void _onChildChanged(Event event) {
-    print("CHANGED");
     var old = gardens.singleWhere((entry) {
       return entry.key == event.snapshot.key;
     });
-
+    print(gardens.indexOf(old));
     setState(() {
       gardens[gardens.indexOf(old)] = Orchard.fromSnapshot(event.snapshot);
     });

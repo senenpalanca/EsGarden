@@ -80,6 +80,26 @@ class LoadItems extends StatelessWidget {
                         ),
                       ),
                     ),
+                    /* PopupMenuItem(
+                  enabled: globals.isAdmin,
+                  value: 2,
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AlertList(
+                                PlotKey: PlotKey,
+                                //alerts: alerts,
+                              )));
+                    },
+                    child: Text(
+                      "Alerts",
+                      style:
+                      TextStyle(color: Colors.black45, fontSize: 18.0),
+                    ),
+                  ),
+                ),*/
                   ]),
         ],
       ),

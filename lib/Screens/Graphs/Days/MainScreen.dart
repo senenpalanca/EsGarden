@@ -198,17 +198,18 @@ class formChartState extends State<formChart> {
 
     List<Widget> fin = [];
     for (int i = 0; i < dias.length; i++) {
-      Widget tab = new DayTab();
-      fin.add(new DayTab(
-        data: dias[dias.keys.toList()[i]],
-        day: dias.length - (i + 1),
-        color: widget.color,
-        type: widget.type,
-        PlotKey: widget.PlotKey,
-        dayText: dias.keys.toList()[i],
-      ));
+      if (dias[dias.keys.toList()[i]].toList().length > 0) {
+        print("data ${dias[dias.keys.toList()[i]]}");
+        fin.add(new DayTab(
+          data: dias[dias.keys.toList()[i]],
+          day: dias.length - (i + 1),
+          color: widget.color,
+          type: widget.type,
+          PlotKey: widget.PlotKey,
+          dayText: dias.keys.toList()[i],
+        ));
+      }
     }
-
     return fin;
   }
 

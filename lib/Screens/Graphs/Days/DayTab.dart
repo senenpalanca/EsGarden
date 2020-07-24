@@ -36,6 +36,9 @@ class DayTabState extends State<DayTab> {
   Widget build(BuildContext context) {
     var maxValueTop = _getHighestValue(widget.data, true);
     var minValueTop = _getLowestValue(widget.data, maxValueTop, true);
+    var avgValueTop = _getAvgValue(widget.data);
+
+    //print(avgValueTop.floor());
 
     return Container(
         child: Padding(
@@ -93,12 +96,12 @@ class DayTabState extends State<DayTab> {
                               Column(
                                 children: <Widget>[
                                   Text(
-                                    "MAX",
+                                    "MIN",
                                     style: TextStyle(
                                         fontSize: 26, color: Colors.white),
                                   ),
                                   Text(
-                                    maxValueTop.toString() +
+                                    minValueTop.toString() +
                                         MEASURING_UNITS[widget.type],
                                     style: TextStyle(
                                         fontSize: 24, color: Colors.white),
@@ -108,12 +111,27 @@ class DayTabState extends State<DayTab> {
                               Column(
                                 children: <Widget>[
                                   Text(
-                                    "MIN",
+                                    "AVG",
                                     style: TextStyle(
                                         fontSize: 26, color: Colors.white),
                                   ),
                                   Text(
-                                    minValueTop.toString() +
+                                    avgValueTop.toString() +
+                                        MEASURING_UNITS[widget.type],
+                                    style: TextStyle(
+                                        fontSize: 24, color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    "MAX",
+                                    style: TextStyle(
+                                        fontSize: 26, color: Colors.white),
+                                  ),
+                                  Text(
+                                    maxValueTop.toString() +
                                         MEASURING_UNITS[widget.type],
                                     style: TextStyle(
                                         fontSize: 24, color: Colors.white),
@@ -151,6 +169,32 @@ class DayTabState extends State<DayTab> {
         ),
       ),
     ));
+  }
+
+  int _getAvgValue(List<DataElement> data) {
+    int pos = 0;
+    List<DataElement> DataElements = data;
+    Map<int, List<TimeSeries>> dataLists = {};
+    DataElements.removeWhere((value) => value == null);
+    int numeroDeValores = 1;
+    if (VALUE_RELATION[widget.type] != null) {
+      numeroDeValores = VALUE_RELATION[widget.type].length;
+    }
+    for (var n = 0; n < numeroDeValores; n++) {
+      //Inicializa las listas
+      dataLists[n] = [];
+    }
+    var sum = 0;
+    for (var i = 0; i < DataElements.length; i++) {
+      var typeNo = int.parse(CATALOG_TYPES[widget.type.toLowerCase()]);
+      List value = DataElements[i].Values[typeNo];
+
+      if (value != null) {
+        sum += value[pos];
+      }
+    }
+
+    return (sum / DataElements.length).floor();
   }
 
   int _getHighestValue(List data, bool first) {
@@ -238,6 +282,7 @@ class DayTabState extends State<DayTab> {
   Widget SecondLimit() {
     if (doubleData()) {
       var maxValueBottom = _getHighestValue(widget.data, false);
+      var avgValueBottom = _getAvgValue(widget.data);
       var minValueBottom = _getLowestValue(widget.data, maxValueBottom, false);
       return Padding(
         padding:
@@ -261,11 +306,11 @@ class DayTabState extends State<DayTab> {
                       Column(
                         children: <Widget>[
                           Text(
-                            "MAX",
+                            "MIN",
                             style: TextStyle(fontSize: 26, color: Colors.white),
                           ),
                           Text(
-                            maxValueBottom.toString() +
+                            minValueBottom.toString() +
                                 MEASURING_UNITS[widget.type],
                             style: TextStyle(fontSize: 24, color: Colors.white),
                           ),
@@ -274,11 +319,24 @@ class DayTabState extends State<DayTab> {
                       Column(
                         children: <Widget>[
                           Text(
-                            "MIN",
+                            "AVG",
                             style: TextStyle(fontSize: 26, color: Colors.white),
                           ),
                           Text(
-                            minValueBottom.toString() +
+                            avgValueBottom.toString() +
+                                MEASURING_UNITS[widget.type],
+                            style: TextStyle(fontSize: 24, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            "MAX",
+                            style: TextStyle(fontSize: 26, color: Colors.white),
+                          ),
+                          Text(
+                            maxValueBottom.toString() +
                                 MEASURING_UNITS[widget.type],
                             style: TextStyle(fontSize: 24, color: Colors.white),
                           ),

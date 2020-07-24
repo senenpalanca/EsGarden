@@ -170,6 +170,14 @@ class _FormElectroValveState extends State<NFormElectroValve> {
                       ],
                     ),
                   ),
+                  Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      "Only one sensor can be actived",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  )),
                   _createNewMaxAndMin(),
                 ],
               ),

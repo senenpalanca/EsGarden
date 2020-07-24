@@ -46,7 +46,7 @@ class _AlertItemState extends State<AlertItem> {
     return FutureBuilder(
       future: _getAlerts(),
       builder: (context, snapshot) {
-        if (snapshot.data != null) {
+        if (true) {
           return Row(
             children: <Widget>[
               GestureDetector(
@@ -58,23 +58,13 @@ class _AlertItemState extends State<AlertItem> {
                       MaterialPageRoute(
                           builder: (context) => AlertList(
                                 PlotKey: widget.PlotKey,
-                                alerts: alerts,
+                                //alerts: alerts,
                               )));
                 },
               ),
               Icon(
                 Icons.warning,
                 color: res ? Colors.red : Colors.grey,
-              ),
-            ],
-          );
-        } else {
-          return Row(
-            children: <Widget>[
-              Text(widget.title),
-              Icon(
-                Icons.warning,
-                color: Colors.grey,
               ),
             ],
           );
@@ -88,7 +78,9 @@ class _AlertItemState extends State<AlertItem> {
   Future<int> _getAlerts() async {
 
     Map<dynamic, dynamic> getMap = await _fetchData(); //get.value;
-    print(getMap);
+    verb ? print(getMap) : null;
+    res = alerts.length == 0 ? false : true;
+    alerts = new Map<String, Map<dynamic, dynamic>>();
     if (getMap != null) {
       List types = getMap.keys.toList();
       verb ? print(types.length) : null;
@@ -104,7 +96,8 @@ class _AlertItemState extends State<AlertItem> {
 
         _CheckAlertsForType(SensorProfiles, selectedType, lastElement);
       }
-      verb ? print("ALERTS :> $alerts") : null;
+      print(alerts);
+      verb ? print("RES :> $res ALERTS :> $alerts") : null;
     }
 
     return 1;
@@ -193,6 +186,7 @@ class _AlertItemState extends State<AlertItem> {
               }
               alerts[selectedType][fieldNo.toString()] = new Item(
                   cond: "Lower", exp: AlertProfile["Value"], val: valueToCheck);
+
               res = true;
             }
             break;

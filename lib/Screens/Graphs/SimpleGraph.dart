@@ -46,8 +46,9 @@ class _SimpleGraphState extends State<SimpleGraph> {
             : null,
         zoomPanBehavior: zooming,
         primaryXAxis: DateTimeAxis(
-          desiredIntervals: 4,
+          desiredIntervals: 5,
           dateFormat: DateFormat.Hm(),
+          labelFormat: '{value} h',
           //enableAutoIntervalOnZooming: false,
           /*
           maximum: widget.data.length < 5 && widget.data.length > 0
@@ -85,13 +86,16 @@ class _SimpleGraphState extends State<SimpleGraph> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   new Container(),
-                  RaisedButton(
-                    child: Text(
-                      'Zoom Out',
-                      style: TextStyle(fontSize: 14, color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: RaisedButton(
+                      child: Text(
+                        'Zoom Out',
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                      ),
+                      onPressed: zoom,
+                      color: Colors.green,
                     ),
-                    onPressed: zoom,
-                    color: Colors.green,
                   ),
                 ],
               ),

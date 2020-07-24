@@ -8,7 +8,8 @@ class AlertList extends StatefulWidget {
   Plot PlotKey;
   Map<String, Map> alerts = new Map();
 
-  AlertList({this.PlotKey, this.alerts});
+  AlertList({this.PlotKey /*, this.alerts*/
+      });
 
   @override
   _AlertListState createState() => _AlertListState();
@@ -24,12 +25,16 @@ class _AlertListState extends State<AlertList> {
         title: Text("Alerts List of " + widget.PlotKey.Name),
         backgroundColor: Colors.green,
         actions: <Widget>[
-          IconButton(
+          /* IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
-              setState(() {});
+              setState(() {
+                print("clearing alerts...");
+                alerts = new Map<String, Map<dynamic,dynamic>>();
+              });
+
             },
-          ),
+          ),*/
         ],
       ),
       body: ListView(
@@ -40,14 +45,14 @@ class _AlertListState extends State<AlertList> {
 
   List<Widget> _getAlerts() {
     List<Widget> widAlerts = [Text("")];
-    List AlertTypes = widget.alerts.keys.toList();
+    List AlertTypes = alerts.keys.toList();
     print(AlertTypes);
-    print(widget.alerts);
+    print(alerts);
     AlertTypes.forEach((type) {
       int lengthA = 4; //Máximo
       print(lengthA);
       for (var i = 0; i < lengthA; i++) {
-        Item item = widget.alerts[type][i.toString()];
+        Item item = alerts[type][i.toString()];
         if (item != null) {
           widAlerts.add(_createTile(type, item, i));
         }

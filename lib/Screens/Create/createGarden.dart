@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -29,6 +30,7 @@ class FormGardenState extends State<FormGarden> {
       _image = File(pickedFile.path);
     });
   }
+
   final _database = FirebaseDatabase.instance.reference();
 
   @override
@@ -129,7 +131,7 @@ class FormGardenState extends State<FormGarden> {
 
   Widget createGardenButton(BuildContext context) {
     return new FloatingActionButton.extended(
-      onPressed: () {
+      onPressed: () async {
         if (!_ValidateFields()) {
           showDialog(
               context: context,
@@ -140,12 +142,12 @@ class FormGardenState extends State<FormGarden> {
                 );
               });
         } else {
+          await uploadImage();
+
+          createRecord();
           showDialog(
               context: context,
               builder: (context) {
-                uploadImage();
-
-                createRecord();
                 return AlertDialog(
                   title: Text("Garden Created"),
                   content: Text("The garden " +
@@ -180,75 +182,69 @@ class FormGardenState extends State<FormGarden> {
   }
 
   Future createRecord() async {
-    await Future.delayed(Duration(seconds: 1));
-    String img = _uploadedFileURL.toString();
-    print(img);
-    if (_uploadedFileURL == null) {
-      img = "https://i.ibb.co/rwgX7b3/garden2.jpg";
-    }
-    final databaseReference = _database.child("Gardens");
-    databaseReference.child(nameContoller.text).set({
-      'City': cityContoller.text,
-      //'Vegetable': vegetableContoller.text,
-      //'Alerts' : {"C1" : [ "No Notifications" ],"H1" : [ "No notifications"], "T1" : [ "No notifications"]},
-      "Latitude": "41.643641",
-      "Longitude": "-0.879529",
-      "Img": img,
-      "sensorData": {
-        "General": {
-          "Name": "General",
-          "Data": {},
-          "Valve": {
-            "Max": [0],
-            "Min": [0],
-            "Active": [0],
-            "Sensor": 255
-          },
-          "City": cityContoller.text,
-          "Items": [
-            "Temperature",
-            "Air Quality",
-            "Humidity",
-            "Brightness"
-          ],
-          "Img": "https://i.ibb.co/nPFdzdv/general1.jpg",
-          "Parent": nameContoller.text,
-          "Vegetable": "General"
-        },
-        "Nursery": {
-          "Name": "Nursery",
-          "Data": {},
-          "Valve": {
-            "Max": [0],
-            "Min": [0],
-            "Active": [0],
-            "Sensor": 255
-          },
-          "City": cityContoller.text,
-          "Items": ["Temperature", "Air Quality", "Humidity"],
-          "Img": "https://i.ibb.co/ZYFqJyM/PLANTA-web.jpg",
-          "Parent": nameContoller.text,
-          "Vegetable": "General"
-        },
-        "Compost": {
-          "Name": "Compost",
-          "Data": {},
-          "Valve": {
-            "Max": [0],
-            "Min": [0],
-            "Active": [0],
-            "Sensor": 255
-          },
-          "City": cityContoller.text,
-          "Items": ["Compost Temperature", "Compost Humidity", "Air Quality"],
-          "Img":
-          "https://cdn.pixabay.com/photo/2017/06/09/12/51/fresh-2386786_960_720.jpg",
-          "Parent": nameContoller.text,
-          "Vegetable": "General"
-        }
+    await Future.delayed(Duration(seconds: 3)).then((_) {
+      String img = _uploadedFileURL.toString();
+
+      if (_uploadedFileURL == null) {
+        img = "https://i.ibb.co/rwgX7b3/garden2.jpg";
       }
+      final databaseReference = _database.child("Gardens");
+      databaseReference.child(nameContoller.text).set({
+        'City': cityContoller.text,
+        //'Vegetable': vegetableContoller.text,
+        //'Alerts' : {"C1" : [ "No Notifications" ],"H1" : [ "No notifications"], "T1" : [ "No notifications"]},
+        "Latitude": "41.643641",
+        "Longitude": "-0.879529",
+        "Img": img,
+        "sensorData": {
+          "General": {
+            "Name": "General",
+            "Data": {},
+            "Valve": {
+              "Max": [0],
+              "Min": [0],
+              "Active": [0],
+              "Sensor": 255
+            },
+            "City": cityContoller.text,
+            "Items": ["Temperature", "Air Quality", "Humidity", "Brightness"],
+            "Img": "https://i.ibb.co/nPFdzdv/general1.jpg",
+            "Parent": nameContoller.text,
+            "Vegetable": "General"
+          },
+          "Nursery": {
+            "Name": "Nursery",
+            "Data": {},
+            "Valve": {
+              "Max": [0],
+              "Min": [0],
+              "Active": [0],
+              "Sensor": 255
+            },
+            "City": cityContoller.text,
+            "Items": ["Temperature", "Air Quality", "Humidity"],
+            "Img": "https://i.ibb.co/ZYFqJyM/PLANTA-web.jpg",
+            "Parent": nameContoller.text,
+            "Vegetable": "General"
+          },
+          "Compost": {
+            "Name": "Compost",
+            "Data": {},
+            "Valve": {
+              "Max": [0],
+              "Min": [0],
+              "Active": [0],
+              "Sensor": 255
+            },
+            "City": cityContoller.text,
+            "Items": ["Compost Temperature", "Compost Humidity", "Air Quality"],
+            "Img":
+                "https://cdn.pixabay.com/photo/2017/06/09/12/51/fresh-2386786_960_720.jpg",
+            "Parent": nameContoller.text,
+            "Vegetable": "General"
+          }
+        }
+      });
     });
   }
-
-
 }

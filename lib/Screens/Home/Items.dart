@@ -1,11 +1,10 @@
 import 'package:esgarden/Library/Globals.dart' as globals;
 import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Screens/Alerts/AlertItem.dart';
 import 'package:esgarden/Services/SyncItems.dart';
 import 'package:esgarden/UI/CardItem.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
-import 'file:///X:/Proyectos/flutte/ESGarden/esgarden/lib/Screens/Alerts/AlertItem.dart';
 
 List<CardItem> listItems = [];
 

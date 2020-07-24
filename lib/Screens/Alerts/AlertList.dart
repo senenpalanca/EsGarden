@@ -1,8 +1,7 @@
 import 'package:esgarden/Library/Globals.dart';
 import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Screens/Alerts/AlertItem.dart';
 import 'package:flutter/material.dart';
-
-import 'file:///X:/Proyectos/flutte/ESGarden/esgarden/lib/Screens/Alerts/AlertItem.dart';
 
 class AlertList extends StatefulWidget {
   Plot PlotKey;

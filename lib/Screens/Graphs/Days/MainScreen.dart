@@ -1,11 +1,10 @@
 import 'package:esgarden/Models/DataElement.dart';
 import 'package:esgarden/Models/Plot.dart';
+import 'package:esgarden/Screens/Alerts/AlertCreate.dart';
 import 'package:esgarden/Screens/Graphs/Days/DayTab.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'file:///X:/Proyectos/flutte/ESGarden/esgarden/lib/Screens/Alerts/AlertCreate.dart';
 
 import '../../../Library/Globals.dart';
 

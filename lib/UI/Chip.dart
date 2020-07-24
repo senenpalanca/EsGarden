@@ -1,6 +1,5 @@
+import 'package:esgarden/Models/Alerts.dart';
 import 'package:flutter/material.dart';
-
-import 'file:///X:/Proyectos/flutte/ESGarden/esgarden/lib/Models/Alerts.dart';
 
 class OptionChips extends StatefulWidget {
   final List<String> typeSeries;

@@ -1,3 +1,26 @@
+/*
+ * // Copyright <2020> <Universitat Politència de València>
+ * // Permission is hereby granted, free of charge, to any person obtaining a copy of this
+ * // software and associated documentation files (the "Software"), to deal in the Software
+ * // without restriction, including without limitation the rights to use, copy, modify, merge,
+ * // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
+ * // to whom the Software is furnished to do so, subject to the following conditions:
+ * //
+ * //The above copyright notice and this permission notice shall be included in all copies or
+ * // substantial portions of the Software.
+ * // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * // OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+ * // AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+ * // THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * //
+ * // This version was built by senenpalanca@gmail.com in ${DATE}
+ * // Updates available in github/senenpalanca/esgarden
+ * //
+ * //
+ */
+
 import 'package:esgarden/Models/Orchard.dart';
 import 'package:esgarden/Models/Plot.dart';
 import 'package:esgarden/Models/Vegetable.dart';
@@ -20,7 +43,7 @@ class FormPlot extends StatefulWidget {
     // if(!vegetables.isEmpty){vegetables.clear();}
     final _database = FirebaseDatabase.instance.reference();
     final databaseReferenceVegetable =
-        _database.child("Vegetables").onChildAdded.listen(_onNewVegetable);
+    _database.child("Vegetables").onChildAdded.listen(_onNewVegetable);
     final databaseReferencePlot = _database
         .child("Gardens")
         .child(OrchardKey.key)
@@ -63,6 +86,7 @@ class FormPlotState extends State<FormPlot> {
     '11',
     "12"
   ];
+
   Future<String> getDataFromFuture() async {
     return new Future.delayed(Duration(milliseconds: 1000), () => "WaitFinish");
   }
@@ -152,11 +176,11 @@ class FormPlotState extends State<FormPlot> {
                                     children: <Widget>[
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 10.0),
+                                        const EdgeInsets.only(left: 10.0),
                                         child: DropdownButton<String>(
                                           value: vegetableValue,
                                           items:
-                                              idVegetables.map((String value) {
+                                          idVegetables.map((String value) {
                                             return new DropdownMenuItem<String>(
                                               value: value,
                                               child: _createDropDownItem(value),
@@ -205,7 +229,6 @@ class FormPlotState extends State<FormPlot> {
         );
         break;
     }
-
   }
 
   String _getTextVegetable(String num) {
@@ -225,7 +248,7 @@ class FormPlotState extends State<FormPlot> {
                 return AlertDialog(
                   title: Text("Error with some fields!!"),
                   content:
-                      Text("Check your fields, maybe your name it's used yet."),
+                  Text("Check your fields, maybe your name it's used yet."),
                 );
               });
         } else {
@@ -278,7 +301,7 @@ class FormPlotState extends State<FormPlot> {
     final databasePlot = databaseOrchard.child("sensorData");
     String plotKey = findFirstPlace();
     var set =
-        databasePlot.child("plot " + (widget.plots.length - 2).toString()).set({
+    databasePlot.child("plot " + (widget.plots.length - 2).toString()).set({
       "Name": nameContoller.text,
       "Valve": {
         "Max": [0],
@@ -300,7 +323,6 @@ class FormPlotState extends State<FormPlot> {
   String findFirstPlace() {
 
   }
-
 
 
 }

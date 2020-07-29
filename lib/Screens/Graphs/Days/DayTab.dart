@@ -1,3 +1,26 @@
+/*
+ * // Copyright <2020> <Universitat Politència de València>
+ * // Permission is hereby granted, free of charge, to any person obtaining a copy of this
+ * // software and associated documentation files (the "Software"), to deal in the Software
+ * // without restriction, including without limitation the rights to use, copy, modify, merge,
+ * // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
+ * // to whom the Software is furnished to do so, subject to the following conditions:
+ * //
+ * //The above copyright notice and this permission notice shall be included in all copies or
+ * // substantial portions of the Software.
+ * // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * // OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+ * // AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+ * // THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * //
+ * // This version was built by senenpalanca@gmail.com in ${DATE}
+ * // Updates available in github/senenpalanca/esgarden
+ * //
+ * //
+ */
+
 import 'package:esgarden/Library/Globals.dart';
 import 'package:esgarden/Models/DataElement.dart';
 import 'package:esgarden/Models/Plot.dart';
@@ -16,14 +39,13 @@ class DayTab extends StatefulWidget {
   Color color;
   String dayText;
 
-  DayTab(
-      {Key key,
-      this.data,
-      this.day,
-      this.PlotKey,
-      this.type,
-      this.color,
-      this.dayText})
+  DayTab({Key key,
+    this.data,
+    this.day,
+    this.PlotKey,
+    this.type,
+    this.color,
+    this.dayText})
       : super(key: key);
 
   DayTabState createState() {
@@ -42,133 +64,133 @@ class DayTabState extends State<DayTab> {
 
     return Container(
         child: Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => formVisualization(
+          padding: const EdgeInsets.all(20.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => formVisualization(
                       PlotKey: widget.PlotKey,
                       color: widget.color,
                       type: widget.type,
                       data: widget.data,
                     )),
-          );
-        },
-        child: Card(
-          child: ListView(
-            children: <Widget>[
-              Column(
+              );
+            },
+            child: Card(
+              child: ListView(
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 18),
-                    child: Text(
-                      CATALOG_NAMES[CATALOG_TYPES[widget.type]] +
-                          " (" +
-                          MEASURING_UNITS[widget.type] +
-                          " ) " +
-                          widget.dayText,
-                      style: TextStyle(fontSize: 20.0),
-                    ),
+                  Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 18),
+                        child: Text(
+                          CATALOG_NAMES[CATALOG_TYPES[widget.type]] +
+                              " (" +
+                              MEASURING_UNITS[widget.type] +
+                              " ) " +
+                              widget.dayText,
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
 
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 15, left: 30, right: 30, bottom: 15),
-                child: Container(
-                  width: 300,
-                  child: Material(
-                    color: doubleData() ? colors[0] : widget.color,
-                    elevation: 4.0,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8.0, right: 8.0, bottom: 8.0),
-                      child: Column(
-                        children: <Widget>[
-                          _ifDoubleData("upper"),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 15, left: 30, right: 30, bottom: 15),
+                    child: Container(
+                      width: 300,
+                      child: Material(
+                        color: doubleData() ? colors[0] : widget.color,
+                        elevation: 4.0,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, right: 8.0, bottom: 8.0),
+                          child: Column(
                             children: <Widget>[
-                              Column(
+                              _ifDoubleData("upper"),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
-                                  Text(
-                                    "MIN",
-                                    style: TextStyle(
-                                        fontSize: 26, color: Colors.white),
+                                  Column(
+                                    children: <Widget>[
+                                      Text(
+                                        "MIN",
+                                        style: TextStyle(
+                                            fontSize: 26, color: Colors.white),
+                                      ),
+                                      Text(
+                                        minValueTop.toString() +
+                                            MEASURING_UNITS[widget.type],
+                                        style: TextStyle(
+                                            fontSize: 24, color: Colors.white),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    minValueTop.toString() +
-                                        MEASURING_UNITS[widget.type],
-                                    style: TextStyle(
-                                        fontSize: 24, color: Colors.white),
+                                  Column(
+                                    children: <Widget>[
+                                      Text(
+                                        "AVG",
+                                        style: TextStyle(
+                                            fontSize: 26, color: Colors.white),
+                                      ),
+                                      Text(
+                                        avgValueTop.toString() +
+                                            MEASURING_UNITS[widget.type],
+                                        style: TextStyle(
+                                            fontSize: 24, color: Colors.white),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Text(
-                                    "AVG",
-                                    style: TextStyle(
-                                        fontSize: 26, color: Colors.white),
-                                  ),
-                                  Text(
-                                    avgValueTop.toString() +
-                                        MEASURING_UNITS[widget.type],
-                                    style: TextStyle(
-                                        fontSize: 24, color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Text(
-                                    "MAX",
-                                    style: TextStyle(
-                                        fontSize: 26, color: Colors.white),
-                                  ),
-                                  Text(
-                                    maxValueTop.toString() +
-                                        MEASURING_UNITS[widget.type],
-                                    style: TextStyle(
-                                        fontSize: 24, color: Colors.white),
+                                  Column(
+                                    children: <Widget>[
+                                      Text(
+                                        "MAX",
+                                        style: TextStyle(
+                                            fontSize: 26, color: Colors.white),
+                                      ),
+                                      Text(
+                                        maxValueTop.toString() +
+                                            MEASURING_UNITS[widget.type],
+                                        style: TextStyle(
+                                            fontSize: 24, color: Colors.white),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              SecondLimit(),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0, top: 50),
-                child: Container(
-                    height: 350,
-                    width: 290,
-                    child: Padding(
-                        padding: const EdgeInsets.only(right: 25.0),
-                        child: SimpleGraph(
-                          color: widget.color,
-                          data: widget.data,
-                          type: widget.type,
-                        ) //LineChart.createData( widget.color,widget.data,widget.type,100,selectionModelConfig())
+                  SecondLimit(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, top: 50),
+                    child: Container(
+                        height: 350,
+                        width: 290,
+                        child: Padding(
+                            padding: const EdgeInsets.only(right: 25.0),
+                            child: SimpleGraph(
+                              color: widget.color,
+                              data: widget.data,
+                              type: widget.type,
+                            ) //LineChart.createData( widget.color,widget.data,widget.type,100,selectionModelConfig())
                         ) //LineChart(widget.color, widget.data, widget.type, 100, selectionModelConfig())),
                     ),
-              ),
+                  ),
 
-              //_createNotificationTab(notifications),
-            ],
+                  //_createNotificationTab(notifications),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 
   int _getAvgValue(List<DataElement> data) {
@@ -286,7 +308,7 @@ class DayTabState extends State<DayTab> {
       var minValueBottom = _getLowestValue(widget.data, maxValueBottom, false);
       return Padding(
         padding:
-            const EdgeInsets.only(top: 15, left: 30, right: 30, bottom: 15),
+        const EdgeInsets.only(top: 15, left: 30, right: 30, bottom: 15),
         child: Container(
           width: 300,
           child: Material(
@@ -296,7 +318,7 @@ class DayTabState extends State<DayTab> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             child: Padding(
               padding:
-                  const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+              const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
               child: Column(
                 children: <Widget>[
                   _ifDoubleData("lower"),

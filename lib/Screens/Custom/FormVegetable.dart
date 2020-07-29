@@ -1,3 +1,26 @@
+/*
+ * // Copyright <2020> <Universitat Politència de València>
+ * // Permission is hereby granted, free of charge, to any person obtaining a copy of this
+ * // software and associated documentation files (the "Software"), to deal in the Software
+ * // without restriction, including without limitation the rights to use, copy, modify, merge,
+ * // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
+ * // to whom the Software is furnished to do so, subject to the following conditions:
+ * //
+ * //The above copyright notice and this permission notice shall be included in all copies or
+ * // substantial portions of the Software.
+ * // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * // OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+ * // AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+ * // THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * //
+ * // This version was built by senenpalanca@gmail.com in ${DATE}
+ * // Updates available in github/senenpalanca/esgarden
+ * //
+ * //
+ */
+
 import 'dart:ui';
 
 import 'package:esgarden/Models/Plot.dart';
@@ -89,32 +112,32 @@ class formVegetable extends StatelessWidget {
         children: <Widget>[
           Container(
               child: Image(
-            image: NetworkImage(vegetable.imgBig), //1200x900
-          )),
+                image: NetworkImage(vegetable.imgBig), //1200x900
+              )),
           Positioned.fill(
               child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Colors.black12, Colors.black12, Colors.black],
-              ),
-            ),
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 10, right: 10),
-              child: Text(
-                vegetable.Description,
-                style: TextStyle(
-                  fontSize: 23,
-                  foreground: Paint()
-                    ..style = PaintingStyle.fill
-                    ..strokeWidth = 1
-                    ..color = Colors.white,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[Colors.black12, Colors.black12, Colors.black],
+                  ),
                 ),
-              ),
-            ),
-          )),
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 10, right: 10),
+                  child: Text(
+                    vegetable.Description,
+                    style: TextStyle(
+                      fontSize: 23,
+                      foreground: Paint()
+                        ..style = PaintingStyle.fill
+                        ..strokeWidth = 1
+                        ..color = Colors.white,
+                    ),
+                  ),
+                ),
+              )),
         ],
       ),
     );
@@ -128,31 +151,31 @@ class formVegetable extends StatelessWidget {
             width: 330,
             child: Center(
                 child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 5.0),
-                  child: Text(
-                    vegetable.name,
-                    style: TextStyle(
-                      fontSize: 25,
-                      foreground: Paint()
-                        ..style = PaintingStyle.fill
-                        ..strokeWidth = 1
-                        ..color = Colors.black,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 5.0),
+                      child: Text(
+                        vegetable.name,
+                        style: TextStyle(
+                          fontSize: 25,
+                          foreground: Paint()
+                            ..style = PaintingStyle.fill
+                            ..strokeWidth = 1
+                            ..color = Colors.black,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, bottom: 20.0),
-                  child: Text(
-                    vegetable.BigDescription.replaceAll(". ", ".\n"),
-                    style: TextStyle(fontSize: 18.0),
-                    textAlign: TextAlign.justify,
-                  ),
-                )
-              ],
-            ))),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8.0, bottom: 20.0),
+                      child: Text(
+                        vegetable.BigDescription.replaceAll(". ", ".\n"),
+                        style: TextStyle(fontSize: 18.0),
+                        textAlign: TextAlign.justify,
+                      ),
+                    )
+                  ],
+                ))),
       ),
     );
   }
@@ -263,7 +286,6 @@ class formVegetable extends StatelessWidget {
       ),
     );
   }
-
 
 
 }

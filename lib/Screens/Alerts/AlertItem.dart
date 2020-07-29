@@ -1,3 +1,26 @@
+/*
+ * // Copyright <2020> <Universitat Politència de València>
+ * // Permission is hereby granted, free of charge, to any person obtaining a copy of this
+ * // software and associated documentation files (the "Software"), to deal in the Software
+ * // without restriction, including without limitation the rights to use, copy, modify, merge,
+ * // publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
+ * // to whom the Software is furnished to do so, subject to the following conditions:
+ * //
+ * //The above copyright notice and this permission notice shall be included in all copies or
+ * // substantial portions of the Software.
+ * // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ * // OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+ * // AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+ * // THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * //
+ * // This version was built by senenpalanca@gmail.com in ${DATE}
+ * // Updates available in github/senenpalanca/esgarden
+ * //
+ * //
+ */
+
 import 'dart:async';
 
 import 'package:esgarden/Library/Globals.dart';
@@ -27,6 +50,7 @@ class _AlertItemState extends State<AlertItem> {
   @override
   void initState() {
     res = false;
+    _getAlerts();
     setState(() {
       const oneSecond = const Duration(seconds: 2);
       timer = new Timer.periodic(oneSecond, (Timer t) => setState(() {}));
@@ -51,14 +75,13 @@ class _AlertItemState extends State<AlertItem> {
               GestureDetector(
                 child: Text(widget.title),
                 onTap: () {
-
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => AlertList(
-                                PlotKey: widget.PlotKey,
-                                //alerts: alerts,
-                              )));
+                            PlotKey: widget.PlotKey,
+                            //alerts: alerts,
+                          )));
                 },
               ),
               Icon(
@@ -75,7 +98,6 @@ class _AlertItemState extends State<AlertItem> {
   Widget _createAlertIcon() {}
 
   Future<int> _getAlerts() async {
-
     Map<dynamic, dynamic> getMap = await _fetchData(); //get.value;
     verb ? print(getMap) : null;
     res = alerts.length == 0 ? false : true;
@@ -118,7 +140,7 @@ class _AlertItemState extends State<AlertItem> {
         .child(widget.PlotKey.parent)
         .child("sensorData")
         .child(widget.PlotKey.key)
-        //.child("Data").orderByChild('timestamp').once();
+    //.child("Data").orderByChild('timestamp').once();
         .child("Data")
         .onChildAdded
         .listen((event) {
@@ -142,16 +164,15 @@ class _AlertItemState extends State<AlertItem> {
     return e;
   }
 
-  void _CheckAlertsForType(
-      dynamic SensorProfiles, String selectedType, DataElement lastElement) {
+  void _CheckAlertsForType(dynamic SensorProfiles, String selectedType, DataElement lastElement) {
     List keys;
     if (!(SensorProfiles is List)) {
       keys = SensorProfiles.keys.toList();
     }
 
     for (var profileIndex = 0;
-        profileIndex < SensorProfiles.length;
-        profileIndex++) {
+    profileIndex < SensorProfiles.length;
+    profileIndex++) {
       var AlertProfile = null;
 
       if (keys != null) {
@@ -169,7 +190,7 @@ class _AlertItemState extends State<AlertItem> {
         int valueToCheck = noOfValues == 1
             ? lastElement.Values[int.parse(CATALOG_TYPES[selectedType])][0]
             : lastElement.Values[int.parse(CATALOG_TYPES[selectedType])]
-                [AlertProfile["Field"]];
+        [AlertProfile["Field"]];
         //print(valueToCheck);
         //print(lastElement.key);
         verb

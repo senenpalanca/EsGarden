@@ -152,6 +152,7 @@ class AlertListView extends StatelessWidget {
     print(strPos);
     String adder = VALUE_RELATION[type] != null ? "on $strPos" : "";
     return ListTile(
+      leading: Icon(Icons.warning),
       title: Text("$ReadableType $adder"),
       subtitle: Text("Expected $tCond $exp, found $val"),
       //leading: Icon(Icons.warning),

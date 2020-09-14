@@ -60,8 +60,8 @@ class _PlotsState extends State<PlotsOfGarden> {
         .child(widget.OrchardKey.key)
         .child('sensorData');
     sub1 = plotsref.reference().onChildAdded.listen(_onChildAdded);
-    sub2 = plotsref.reference().onChildChanged.listen(_onChildChanged);
-    //sub3 = plotsref.reference().onChildRemoved.listen(_onChildChanged);
+    //sub2 = plotsref.reference().onChildChanged.listen(_onChildChanged);
+    sub2 = plotsref.reference().onChildRemoved.listen(_onChildDeleted);
   }
 
   @override
@@ -170,7 +170,23 @@ class _PlotsState extends State<PlotsOfGarden> {
     });
     print(plots.map((e) => e.key));
   }
+  void _onChildDeleted(Event event) {
+    print("onChildDeleted");
+    var old = plots.singleWhere((entry) {
+      return entry.key == event.snapshot.key;
+    });
+    print(old);
+    setState(() {
+      try{
+        plots.removeAt(plots.indexOf(old));
+      }catch(E){
 
+      }
+
+    });
+
+    print(plots.map((e) =>  e.key));
+  }
   void _manageMenuOptions(int value) {
     if (value == 2) {
       // _showDialog();

@@ -54,14 +54,14 @@ class _HomeState extends State<Home> {
         .onChildAdded
         .listen(_onChildAdded);
     _queryChanged =
-        gardensref.reference().onChildChanged.listen(_onChildChanged);
-    //gardensref.reference().onChildRemoved.listen(_onChildChanged);
+    //    gardensref.reference().onChildChanged.listen(_onChildChanged);
+        gardensref.reference().onChildRemoved.listen(_onChildDeleted);
   }
 
   @override
   void dispose() {
     _queryAdded.cancel();
-    _queryChanged.cancel();
+   // _queryChanged.cancel();
     super.dispose();
   }
 
@@ -75,15 +75,35 @@ class _HomeState extends State<Home> {
     var old = gardens.singleWhere((entry) {
       return entry.key == event.snapshot.key;
     });
+    print("onChildChanged");
+    print(gardens);
     print(gardens.indexOf(old));
     setState(() {
-      gardens[gardens.indexOf(old)] = Orchard.fromSnapshot(event.snapshot);
+
+      gardens[gardens.indexOf(old)-1] = Orchard.fromSnapshot(event.snapshot);
     });
   }
+  void _onChildDeleted(Event event) {
+    print("onChildDeleted");
+    var old = gardens.singleWhere((entry) {
+      return entry.key == event.snapshot.key;
+    });
+    print(old);
+    setState(() {
+      try{
+        gardens.removeAt(gardens.indexOf(old));
+      }catch(E){
 
+      }
+
+    });
+
+    print(gardens.map((e) =>  e.key));
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(gardens.map((e) =>  e.key));
     return Scaffold(
         appBar: AppBar(
           title: Text("Home"),
@@ -146,5 +166,7 @@ class _HomeState extends State<Home> {
     }
   }
 //END Teacher Funcs
+
+
 
 }

@@ -21,7 +21,7 @@
  * //
  */
 
-package esgarden.esgarden
+package <mySchool>.esgarden
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity

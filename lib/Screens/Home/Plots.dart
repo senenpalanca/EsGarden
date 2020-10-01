@@ -66,6 +66,7 @@ class _PlotsState extends State<PlotsOfGarden> {
 
   @override
   void dispose() {
+    sub1?.cancel();
     sub2?.cancel();
     //sub3?.cancel();
     super.dispose();

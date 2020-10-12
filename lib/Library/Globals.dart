@@ -115,6 +115,9 @@ const Map<String, List<String>> ITEMS_PLOTS = const {
     "Temperature",
     "Air Quality",
     "Brightness",
+    "Relative Noise",
+    "PH",
+    "Rainfall",
     "Wind"
   ],
   "Nursery": [

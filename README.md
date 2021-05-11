@@ -19,7 +19,9 @@ La integración con Firebase es esencial para el correcto funcionamiento de la a
 
 # EsGarden Android App [ENGLISH]
 
-The application developed in this repository is part of the educational project “eSchoolGarden: School Gardens for Future Citizens” (Erasmus+ 2018-ES01-KA201-050599), which aims to educate students around Europe in values of sustainability and respect for the environment through STI technologies applicable in a garden. More details of the project in the following link: https://esgarden.blogs.upv.es/
+The app developed in this repository is part of the educational project “eSchoolGarden: School Gardens for Future Citizens” (Erasmus+ 2018-ES01-KA201-050599), which aims to educate students around Europe in values of sustainability and respect for the environment through STI technologies applicable in a school or urban garden. More details of the project can be found at the following link: http://esgarden.webs.upv.es/
+
+The system developed in Android Studio allows the state of multiple gardens, divided into spaces, to be viewed in real time. Each space includes various useful sensors and offers measurement graphs in the form of daily graphs. Maximum, minimum, and average values are highlighted on each graph. Login is offered to superusers who may add and delete spaces as well as add alerts. Non-privileged users start by just clicking the “Sign in” button to view the spaces and graphs without altering the data stored in the database.
 
 <img src="images/Capt5.png" width=200>     <img src="images/Capt6.png" width=200>       <img src="images/Capt7.png" width=200>       <img src="images/Capt8.png" width=200>
 
@@ -29,6 +31,8 @@ The application developed in this repository is part of the educational project 
 
 ## Requeriments
 
-The application developed in this repository allows to visualize in real time the state of a school garden, divided into plots for different vegetables, weather parameters as well as compost and seed nursery ambient parameters. Data is offered in series of graphs that facilitate the understanding of variations that occur and that are detected by the sensors deployed in your garden.
+Flutter, Google’s UI resource to enable the reading of data stored in the Google Firebase real-time database. Syncfusion library (https://www.syncfusion.com/) is provided for zoom and graphs options.
 
-The APP must be linked with a suitable database in FireBase platform which structure is described in “Firebase database structure.pdf”.
+Send your data to Firebase from your IoT devices. Data must be uploaded into spaces: "General", "Nursery", "Compost", or "plot 1", … , "plot n". Use paths as "/Gardens/My_garden/sensorData/plot1/Data/".
+
+Upload the app to Google Play with a package name according to your project settings in Firebase. Add a suitable google-service .json file in android > app file for security requests.

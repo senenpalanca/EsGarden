@@ -4,8 +4,11 @@ La aplicación desarrollada en este repositorio forma parte del proyecto educati
 
 El sistema desarrollado permite visualizar en tiempo real el estado de los múltiples jardines, divididos en parcelas. Además, ofrece una serie de gráficas que facilitan el entendimiento de los cambios que se producen y que son detectados por los sensores. 
 
-<img src="images/Capt1.jpeg" width=200>     <img src="images/Capt2.jpeg" width=200>       <img src="images/Capt3.jpeg" width=200>       <img src="images/Capt4.jpeg" width=200>
+<img src="images/Capt5.png" width=200>     <img src="images/Capt6.png" width=200>       <img src="images/Capt7.png" width=200>       <img src="images/Capt8.png" width=200>
 
+<img src="images/Capt9.png" width=200>     <img src="images/Capt10.png" width=200>       <img src="images/Capt11.png" width=200>      
+
+<img src="images/qr.png" width=200>
 
 ## Requisitos
 
@@ -21,6 +24,8 @@ The application developed in this repository is part of the educational project 
 <img src="images/Capt5.png" width=200>     <img src="images/Capt6.png" width=200>       <img src="images/Capt7.png" width=200>       <img src="images/Capt8.png" width=200>
 
 <img src="images/Capt9.png" width=200>     <img src="images/Capt10.png" width=200>       <img src="images/Capt11.png" width=200>      
+
+<img src="images/qr.png" width=200>
 
 ## Requeriments
 

@@ -36,3 +36,11 @@ Flutter, Google’s UI resource to enable the reading of data stored in the Goog
 Send your data to Firebase from your IoT devices. Data must be uploaded into spaces: "General", "Nursery", "Compost", or "plot 1", … , "plot n". Use paths as "/Gardens/My_garden/sensorData/plot1/Data/".
 
 Upload the app to Google Play with a package name according to your project settings in Firebase. Add a suitable google-service .json file in android > app file for security requests.
+
+## Video
+
+https://user-images.githubusercontent.com/19634907/117822688-0fba9e80-b26d-11eb-9e32-62f60e2eaf25.mp4
+
+
+
+

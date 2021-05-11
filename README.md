@@ -18,9 +18,9 @@ La integración con Firebase es esencial para el correcto funcionamiento de la a
 
 The application developed in this repository is part of the educational project “eSchoolGarden: School Gardens for Future Citizens” (Erasmus+ 2018-ES01-KA201-050599), which aims to educate students around Europe in values of sustainability and respect for the environment through STI technologies applicable in a garden. More details of the project in the following link: https://esgarden.blogs.upv.es/
 
-<img src="images/Capt5.jpeg" width=200>     <img src="images/Capt6.jpeg" width=200>       <img src="images/Capt7.jpeg" width=200>       <img src="images/Capt8.jpeg" width=200>
+<img src="images/Capt5.png" width=200>     <img src="images/Capt6.png" width=200>       <img src="images/Capt7.png" width=200>       <img src="images/Capt8.png" width=200>
 
-<img src="images/Capt9.jpeg" width=200>     <img src="images/Capt10.jpeg" width=200>       <img src="images/Capt11.jpeg" width=200>      
+<img src="images/Capt9.png" width=200>     <img src="images/Capt10.png" width=200>       <img src="images/Capt11.png" width=200>      
 
 ## Requeriments
 
